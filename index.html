@@ -2,26 +2,35 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content, user-scalable=no">
     <title>LKPD Informatika - Berpikir Komputasional</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #1a1a2e;
             color: #fff;
             overflow: hidden;
-            overscroll-behavior:none;
             height: 100%;
             width: 100%;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
+
         .slide-container {
             width: 100vw;
-            height: 100dvh;
+            height: 100vh;
             height: 100dvh;
             position: relative;
             overflow: hidden;
         }
+
         .slide {
             position: absolute;
             width: 100%;
@@ -32,18 +41,20 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            overflow-y:auto;
-            overscroll-behavior:contain;
-            will-change:transform;
-            transform:translateZ(0);
-            backface-visibility:hidden;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
             -webkit-overflow-scrolling: touch;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0;
+            transform: scale(0.96);
         }
+
         .slide.active {
             display: flex;
             opacity: 1;
-            transform: translateX(0);
+            transform: scale(1);
         }
 
         /* Slide 1 - Title */
@@ -51,19 +62,21 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         .slide-1 h1 {
-            font-size: 3.5em;
+            font-size: clamp(2.8rem, 10vw, 4.5rem);
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+            letter-spacing: -0.5px;
         }
         .slide-1 .subtitle {
-            font-size: 1.5em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            opacity: 0.92;
+            margin-bottom: 6px;
         }
         .slide-1 .meta {
-            font-size: 1.1em;
+            font-size: clamp(0.95rem, 2.5vw, 1.2rem);
             opacity: 0.8;
             margin-top: 30px;
+            line-height: 1.7;
         }
 
         /* Content slides */
@@ -72,15 +85,16 @@
             color: #2d3748;
         }
         .content-slide h2 {
-            font-size: 2.8em;
+            font-size: clamp(2rem, 7vw, 3.2rem);
             color: #4a5568;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             border-bottom: 4px solid #667eea;
-            padding-bottom: 15px;
+            padding-bottom: 12px;
             display: inline-block;
         }
-        .content-slide p, .content-slide li {
-            font-size: 1.4em;
+        .content-slide p,
+        .content-slide li {
+            font-size: clamp(1rem, 3vw, 1.5rem);
             line-height: 1.8;
             max-width: 900px;
         }
@@ -90,8 +104,7 @@
             padding: 0;
         }
         .content-slide ul li {
-            padding: 12px 0;
-            padding-left: 40px;
+            padding: 10px 0 10px 40px;
             position: relative;
         }
         .content-slide ul li::before {
@@ -99,7 +112,7 @@
             position: absolute;
             left: 0;
             color: #667eea;
-            font-size: 1.2em;
+            font-size: 1.3em;
         }
 
         /* Pillar slides */
@@ -108,37 +121,38 @@
             color: #744210;
         }
         .pillar-slide h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            margin-bottom: 24px;
             color: #c05621;
         }
         .pillar-card {
-            background: rgba(255,255,255,0.7);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
             padding: 40px;
             max-width: 850px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            text-align: left;
         }
         .pillar-card .definition {
-            font-size: 1.3em;
-            margin-bottom: 20px;
+            font-size: clamp(1rem, 2.8vw, 1.3rem);
+            margin-bottom: 18px;
             font-style: italic;
         }
         .pillar-card .purpose {
-            font-size: 1.2em;
+            font-size: clamp(0.95rem, 2.6vw, 1.2rem);
             background: #fff;
-            padding: 15px 25px;
-            border-radius: 10px;
+            padding: 16px 24px;
+            border-radius: 12px;
             border-left: 5px solid #c05621;
-            text-align: left;
         }
         .pillar-card .example {
-            margin-top: 20px;
-            font-size: 1.1em;
+            margin-top: 18px;
+            font-size: clamp(0.9rem, 2.4vw, 1.1rem);
             background: #fff5eb;
-            padding: 15px 25px;
-            border-radius: 10px;
-            text-align: left;
+            padding: 16px 24px;
+            border-radius: 12px;
         }
 
         /* Algorithm slide */
@@ -148,32 +162,34 @@
         }
         .algo-slide h2 {
             color: #2c7a7b;
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            margin-bottom: 24px;
         }
         .algo-box {
-            background: rgba(255,255,255,0.8);
-            border-radius: 15px;
-            padding: 30px 40px;
-            margin: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 18px;
+            padding: 24px 28px;
             text-align: left;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+            height: fit-content;
         }
         .algo-box h3 {
             color: #2c7a7b;
-            margin-bottom: 10px;
-            font-size: 1.3em;
+            margin-bottom: 8px;
+            font-size: clamp(1rem, 2.8vw, 1.3rem);
         }
         .algo-box ol {
-            font-size: 1.1em;
+            font-size: clamp(0.9rem, 2.4vw, 1.1rem);
             line-height: 1.8;
-            padding-left: 25px;
+            padding-left: 22px;
         }
         .algo-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             max-width: 1000px;
+            width: 100%;
         }
 
         /* Benefits slide */
@@ -183,32 +199,38 @@
         }
         .benefits-slide h2 {
             color: #276749;
-            font-size: 2.5em;
-            margin-bottom: 40px;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            margin-bottom: 32px;
         }
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 24px;
             max-width: 1100px;
+            width: 100%;
         }
         .benefit-card {
-            background: rgba(255,255,255,0.8);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 28px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease;
+        }
+        .benefit-card:active {
+            transform: scale(0.97);
         }
         .benefit-card .icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+            font-size: 2.8rem;
+            margin-bottom: 12px;
         }
         .benefit-card h3 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-size: clamp(1rem, 2.6vw, 1.25rem);
+            margin-bottom: 8px;
             color: #276749;
         }
         .benefit-card p {
-            font-size: 1em;
+            font-size: clamp(0.85rem, 2vw, 1rem);
             line-height: 1.5;
         }
 
@@ -217,127 +239,206 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         .closing-slide h2 {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: clamp(2.4rem, 8vw, 3.8rem);
+            margin-bottom: 16px;
         }
         .closing-slide p {
-            font-size: 1.5em;
-            opacity: 0.9;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            opacity: 0.92;
         }
 
-        /* Navigation */
-        .nav-hint {
+        /* Navigation buttons */
+        .nav-btn {
             position: fixed;
-            bottom: 20px;
-            right: 30px;
-            font-size: 0.9em;
-            opacity: 0.5;
-            color: inherit;
-            z-index: 100;
-            pointer-events: none;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            border: none;
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s, opacity 0.3s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            opacity: 0.6;
+            touch-action: manipulation;
         }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            opacity: 1;
+        }
+        .nav-btn:active {
+            transform: translateY(-50%) scale(0.92);
+            background: rgba(255, 255, 255, 0.35);
+        }
+        .nav-btn.prev {
+            left: 16px;
+        }
+        .nav-btn.next {
+            right: 16px;
+        }
+
+        /* Slide counter */
         .slide-counter {
             position: fixed;
             bottom: 20px;
-            left: 30px;
-            font-size: 0.9em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
             opacity: 0.5;
             z-index: 100;
             pointer-events: none;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            color: #fff;
         }
 
-        .button-box{margin-top:30px;text-align:center;}
-        .btn{display:inline-block;background:#38a169;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:bold;font-size:clamp(1rem,2.5vw,1.2rem);transition:.3s}
-        .btn:hover{background:#2f855a;transform:scale(1.05);}
-
-        /* Swipe indicator for mobile */
-        .swipe-hint {
-            display: none;
-            position: fixed;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            font-size: 0.85em;
-            opacity: 0.6;
-            pointer-events: none;
-            animation: pulse 2s infinite;
+        /* Button in closing */
+        .button-box {
+            margin-top: 32px;
+            text-align: center;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #4a5568;
+            text-decoration: none;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+            touch-action: manipulation;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+            background: #f0f4ff;
+        }
+        .btn:active {
+            transform: scale(0.96);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .slide { 
-                padding: 20px 24px !important; 
+            .slide {
+                padding: 20px 24px !important;
+                justify-content: flex-start;
+                padding-top: 40px !important;
             }
-            .slide-container, .slide {
-                min-height: 100dvh;
+
+            .slide-1 {
+                justify-content: center !important;
+                padding-top: 20px !important;
             }
             .slide-1 h1 {
-                font-size: clamp(1.8rem, 7vw, 2.8rem) !important;
+                font-size: clamp(2.2rem, 12vw, 3rem) !important;
             }
-            .content-slide h2, .pillar-slide h2, .algo-slide h2, .benefits-slide h2, .closing-slide h2 {
-                font-size: clamp(1.5rem, 6vw, 2.2rem) !important;
-                margin-bottom: 20px !important;
+
+            .content-slide ul li {
+                padding: 8px 0 8px 30px;
+                font-size: clamp(0.9rem, 3.5vw, 1.1rem) !important;
             }
-            .content-slide p, .content-slide li, .pillar-card .definition, .pillar-card .purpose, .pillar-card .example {
-                font-size: 1rem !important;
-                line-height: 1.6;
-            }
+
             .pillar-card {
-                padding: 20px !important;
-                width: 100%;
+                padding: 24px !important;
             }
-            .algo-grid, .benefits-grid {
+            .pillar-card .definition,
+            .pillar-card .purpose,
+            .pillar-card .example {
+                font-size: clamp(0.9rem, 3vw, 1rem) !important;
+            }
+
+            .algo-grid {
                 grid-template-columns: 1fr !important;
-                gap: 12px !important;
-                width: 100%;
+                gap: 14px !important;
             }
             .algo-box {
-                padding: 18px 20px !important;
-                margin: 0;
-            }
-            .algo-box h3 {
-                font-size: 1.1em !important;
+                padding: 16px 20px !important;
             }
             .algo-box ol {
-                font-size: 0.95em !important;
+                font-size: clamp(0.85rem, 3vw, 1rem) !important;
+                padding-left: 18px;
             }
+
             .benefits-grid {
                 grid-template-columns: 1fr !important;
+                gap: 14px !important;
+                max-width: 400px;
             }
             .benefit-card {
-                padding: 18px !important;
+                padding: 18px 16px !important;
             }
             .benefit-card .icon {
-                font-size: 2em !important;
+                font-size: 2.2rem !important;
             }
             .benefit-card h3 {
-                font-size: 1.1em !important;
+                font-size: 1rem !important;
             }
             .benefit-card p {
-                font-size: 0.9em !important;
+                font-size: 0.85rem !important;
             }
-            .slide-1 .subtitle {
-                font-size: 1.1em !important;
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                opacity: 0.5;
             }
-            .slide-1 .meta {
-                font-size: 0.95em !important;
+            .nav-btn.prev {
+                left: 8px;
             }
-            .nav-hint {
-                display: none;
+            .nav-btn.next {
+                right: 8px;
             }
-            .swipe-hint {
-                display: block;
+
+            .slide-counter {
+                font-size: 0.7rem;
+                padding: 4px 14px;
+                bottom: 14px;
             }
-            .button-box {
-                margin-top: 20px;
-            }
+
             .btn {
-                padding: 12px 20px;
+                padding: 12px 28px;
+                font-size: 0.95rem;
+            }
+            .closing-slide .btn {
+                background: #fff;
+                color: #4a5568;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 16px 16px !important;
+                padding-top: 30px !important;
+            }
+            .slide-1 {
+                padding-top: 10px !important;
+            }
+            .pillar-card {
+                padding: 18px !important;
+            }
+            .algo-box {
+                padding: 14px 16px !important;
+            }
+            .benefit-card {
+                padding: 14px 12px !important;
+            }
+            .nav-btn {
+                width: 34px;
+                height: 34px;
                 font-size: 1rem;
             }
         }
@@ -361,7 +462,7 @@
         <!-- Slide 2: Pengertian -->
         <div class="slide content-slide">
             <h2>Apa itu Berpikir Komputasional?</h2>
-            <p style="font-size: 1.5em; font-style: italic; color: #4a5568; margin-bottom: 30px;">
+            <p style="font-size: clamp(1.2rem, 4vw, 1.8rem); font-style: italic; color: #4a5568; margin-bottom: 24px; max-width: 850px;">
                 "Cara berpikir secara logis, sistematis, dan terstruktur untuk menyelesaikan masalah secara efektif dan efisien."
             </p>
             <ul>
@@ -374,26 +475,26 @@
         <!-- Slide 3: 4 Pilar -->
         <div class="slide content-slide" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #702459;">
             <h2 style="color: #97266d; border-color: #97266d;">4 Pilar Berpikir Komputasional</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin-top: 20px;">
-                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
-                    <div style="font-size: 2.5em; margin-bottom: 10px;">🧩</div>
-                    <h3 style="font-size: 1.4em; color: #97266d;">Dekomposisi</h3>
-                    <p style="font-size: 1em;">Memecah masalah besar menjadi bagian kecil</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; width: 100%; margin-top: 16px;">
+                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <div style="font-size: 2.8rem; margin-bottom: 8px;">🧩</div>
+                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Dekomposisi</h3>
+                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Memecah masalah besar menjadi bagian kecil</p>
                 </div>
-                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
-                    <div style="font-size: 2.5em; margin-bottom: 10px;">🔍</div>
-                    <h3 style="font-size: 1.4em; color: #97266d;">Pengenalan Pola</h3>
-                    <p style="font-size: 1em;">Menemukan kesamaan dan keteraturan</p>
+                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <div style="font-size: 2.8rem; margin-bottom: 8px;">🔍</div>
+                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Pengenalan Pola</h3>
+                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Menemukan kesamaan dan keteraturan</p>
                 </div>
-                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
-                    <div style="font-size: 2.5em; margin-bottom: 10px;">🎯</div>
-                    <h3 style="font-size: 1.4em; color: #97266d;">Abstraksi</h3>
-                    <p style="font-size: 1em;">Fokus pada informasi penting</p>
+                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <div style="font-size: 2.8rem; margin-bottom: 8px;">🎯</div>
+                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Abstraksi</h3>
+                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Fokus pada informasi penting</p>
                 </div>
-                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
-                    <div style="font-size: 2.5em; margin-bottom: 10px;">📋</div>
-                    <h3 style="font-size: 1.4em; color: #97266d;">Algoritma</h3>
-                    <p style="font-size: 1em;">Langkah-langkah logis dan berurutan</p>
+                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <div style="font-size: 2.8rem; margin-bottom: 8px;">📋</div>
+                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Algoritma</h3>
+                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Langkah-langkah logis dan berurutan</p>
                 </div>
             </div>
         </div>
@@ -533,10 +634,10 @@
         <!-- Slide 10: Kesimpulan -->
         <div class="slide content-slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;">
             <h2 style="color: #fff; border-color: #fff;">Kesimpulan</h2>
-            <p style="font-size: 1.4em; max-width: 800px; line-height: 2;">
+            <p style="font-size: clamp(1.1rem, 3.5vw, 1.6rem); max-width: 800px; line-height: 2;">
                 Berpikir komputasional adalah keterampilan penting yang dapat kita gunakan untuk menyelesaikan berbagai masalah dalam kehidupan sehari-hari. Dengan <strong>4 pilar utama</strong> — Dekomposisi, Pengenalan Pola, Abstraksi, dan Algoritma — kita dapat menjadi pemecah masalah yang lebih baik!
             </p>
-            <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+            <p style="margin-top: 32px; font-size: clamp(1rem, 3vw, 1.3rem); opacity: 0.92;">
                 🎯 Mulailah menerapkannya dalam aktivitas sehari-harimu!
             </p>
         </div>
@@ -545,7 +646,7 @@
         <div class="slide closing-slide">
             <h2>Terima Kasih!</h2>
             <p>Selamat Belajar dan Berlatih 🌟</p>
-            <div style="margin-top: 40px; font-size: 1em; opacity: 0.8;">
+            <div style="margin-top: 24px; font-size: clamp(0.9rem, 2.5vw, 1.1rem); opacity: 0.85; line-height: 1.7;">
                 SD Widya Dharma Banjarmasin<br>
                 Mata Pelajaran Informatika
             </div>
@@ -558,18 +659,25 @@
 
     </div>
 
+    <!-- Navigation Buttons -->
+    <button class="nav-btn prev" id="prevBtn" aria-label="Slide sebelumnya">‹</button>
+    <button class="nav-btn next" id="nextBtn" aria-label="Slide berikutnya">›</button>
+
+    <!-- Slide Counter -->
     <div class="slide-counter"><span id="current">1</span> / <span id="total">11</span></div>
-    <div class="nav-hint">← → atau ↑ ↓ untuk navigasi</div>
-    <div class="swipe-hint">👆 Geser kiri/kanan/atas/bawah</div>
 
     <script>
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
         const totalSlides = slides.length;
+        let isTransitioning = false;
 
         document.getElementById('total').textContent = totalSlides;
 
         function showSlide(index) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
             slides.forEach((slide, i) => {
                 slide.classList.remove('active');
                 if (i === index) {
@@ -577,6 +685,10 @@
                 }
             });
             document.getElementById('current').textContent = index + 1;
+
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 400);
         }
 
         function nextSlide() {
@@ -592,6 +704,16 @@
                 showSlide(currentSlide);
             }
         }
+
+        // Button navigation
+        document.getElementById('nextBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            nextSlide();
+        });
+        document.getElementById('prevBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            prevSlide();
+        });
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
@@ -612,28 +734,28 @@
             }
         });
 
-        // Click navigation (desktop)
-        let swiping=false;
+        // Click on slide edges (desktop)
         document.addEventListener('click', (e) => {
-            if(swiping) return;
-            // Jangan navigasi jika klik tombol/link
-            if (e.target.closest('a') || e.target.closest('button')) return;
-            
+            // Jangan navigasi jika klik tombol, link, atau di dalam elemen interaktif
+            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.btn')) return;
+            if (e.target.closest('.nav-btn')) return;
+
             const x = e.clientX;
             const width = window.innerWidth;
-            if (x > width / 2) {
+            // threshold 30% dari sisi
+            if (x > width * 0.7) {
                 nextSlide();
-            } else {
+            } else if (x < width * 0.3) {
                 prevSlide();
             }
         });
 
-        // Touch / Swipe navigation for mobile
+        // Touch / Swipe
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
-        const minSwipeDistance = 40; // minimal jarak swipe (pixel)
+        const minSwipeDistance = 30;
 
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
@@ -641,43 +763,40 @@
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
+            // Jangan proses jika swipe dimulai dari tombol atau link
+            const target = e.target.closest('a, button, .btn');
+            if (target) return;
+
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
             handleSwipe();
         }, { passive: true });
 
         function handleSwipe() {
-            swiping=true;
-            setTimeout(()=>swiping=false,150);
             const diffX = touchEndX - touchStartX;
             const diffY = touchEndY - touchStartY;
             const absX = Math.abs(diffX);
             const absY = Math.abs(diffY);
 
-            // Pastikan swipe cukup panjang
             if (Math.max(absX, absY) < minSwipeDistance) return;
 
-            // Tentukan arah dominan (horizontal vs vertikal)
             if (absX > absY) {
-                // Swipe horizontal
                 if (diffX > 0) {
-                    // Geser ke kanan -> slide sebelumnya
                     prevSlide();
                 } else {
-                    // Geser ke kiri -> slide berikutnya
                     nextSlide();
                 }
             } else {
-                // Swipe vertikal
                 if (diffY > 0) {
-                    // Geser ke bawah -> slide sebelumnya
                     prevSlide();
                 } else {
-                    // Geser ke atas -> slide berikutnya
                     nextSlide();
                 }
             }
         }
+
+        // Tampilkan slide pertama
+        showSlide(0);
     </script>
 </body>
 </html>
