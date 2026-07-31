@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>LKPD Informatika - Berpikir Komputasional</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,13 +11,13 @@
             background: #1a1a2e;
             color: #fff;
             overflow: hidden;
-            touch-action: none;
+            overscroll-behavior:none;
             height: 100%;
             width: 100%;
         }
         .slide-container {
             width: 100vw;
-            height: 100vh;
+            height: 100dvh;
             height: 100dvh;
             position: relative;
             overflow: hidden;
@@ -33,7 +33,11 @@
             align-items: center;
             text-align: center;
             transition: opacity 0.5s ease, transform 0.5s ease;
-            overflow-y: auto;
+            overflow-y:auto;
+            overscroll-behavior:contain;
+            will-change:transform;
+            transform:translateZ(0);
+            backface-visibility:hidden;
             -webkit-overflow-scrolling: touch;
         }
         .slide.active {
@@ -609,7 +613,9 @@
         });
 
         // Click navigation (desktop)
+        let swiping=false;
         document.addEventListener('click', (e) => {
+            if(swiping) return;
             // Jangan navigasi jika klik tombol/link
             if (e.target.closest('a') || e.target.closest('button')) return;
             
@@ -641,6 +647,8 @@
         }, { passive: true });
 
         function handleSwipe() {
+            swiping=true;
+            setTimeout(()=>swiping=false,150);
             const diffX = touchEndX - touchStartX;
             const diffY = touchEndY - touchStartY;
             const absX = Math.abs(diffX);
