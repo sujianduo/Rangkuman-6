@@ -2,20 +2,25 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LKPD Informatika - Berpikir Komputasional</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
+        html, body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #1a1a2e;
             color: #fff;
             overflow: hidden;
+            touch-action: none;
+            height: 100%;
+            width: 100%;
         }
         .slide-container {
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             position: relative;
+            overflow: hidden;
         }
         .slide {
             position: absolute;
@@ -27,11 +32,14 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .slide.active {
             display: flex;
             opacity: 1;
+            transform: translateX(0);
         }
 
         /* Slide 1 - Title */
@@ -222,6 +230,7 @@
             opacity: 0.5;
             color: inherit;
             z-index: 100;
+            pointer-events: none;
         }
         .slide-counter {
             position: fixed;
@@ -230,30 +239,103 @@
             font-size: 0.9em;
             opacity: 0.5;
             z-index: 100;
+            pointer-events: none;
         }
 
-        
-.button-box{margin-top:30px;text-align:center;}
-.btn{display:inline-block;background:#38a169;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:bold;font-size:clamp(1rem,2.5vw,1.2rem);transition:.3s}
-.btn:hover{background:#2f855a;transform:scale(1.05);}
-@media (max-width:768px){
-.slide{padding:20px !important;}
-.slide-container,.slide{min-height:100dvh;}
-.slide-1 h1{font-size:clamp(2rem,8vw,3rem)!important;}
-.content-slide h2,.pillar-slide h2,.algo-slide h2,.benefits-slide h2,.closing-slide h2{font-size:clamp(1.6rem,6vw,2.3rem)!important;}
-.content-slide p,.content-slide li,.pillar-card .definition,.pillar-card .purpose,.pillar-card .example{font-size:1rem!important;line-height:1.6;}
-.algo-grid,.benefits-grid{grid-template-columns:1fr!important;}
-}
+        .button-box{margin-top:30px;text-align:center;}
+        .btn{display:inline-block;background:#38a169;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:bold;font-size:clamp(1rem,2.5vw,1.2rem);transition:.3s}
+        .btn:hover{background:#2f855a;transform:scale(1.05);}
 
+        /* Swipe indicator for mobile */
+        .swipe-hint {
+            display: none;
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            font-size: 0.85em;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .slide { padding: 30px 40px; }
-            .slide-1 h1 { font-size: 2em; }
-            .content-slide h2 { font-size: 1.8em; }
-            .content-slide p, .content-slide li { font-size: 1.1em; }
-            .algo-grid { grid-template-columns: 1fr; }
-            .benefits-grid { grid-template-columns: 1fr; }
+            .slide { 
+                padding: 20px 24px !important; 
+            }
+            .slide-container, .slide {
+                min-height: 100dvh;
+            }
+            .slide-1 h1 {
+                font-size: clamp(1.8rem, 7vw, 2.8rem) !important;
+            }
+            .content-slide h2, .pillar-slide h2, .algo-slide h2, .benefits-slide h2, .closing-slide h2 {
+                font-size: clamp(1.5rem, 6vw, 2.2rem) !important;
+                margin-bottom: 20px !important;
+            }
+            .content-slide p, .content-slide li, .pillar-card .definition, .pillar-card .purpose, .pillar-card .example {
+                font-size: 1rem !important;
+                line-height: 1.6;
+            }
+            .pillar-card {
+                padding: 20px !important;
+                width: 100%;
+            }
+            .algo-grid, .benefits-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+                width: 100%;
+            }
+            .algo-box {
+                padding: 18px 20px !important;
+                margin: 0;
+            }
+            .algo-box h3 {
+                font-size: 1.1em !important;
+            }
+            .algo-box ol {
+                font-size: 0.95em !important;
+            }
+            .benefits-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .benefit-card {
+                padding: 18px !important;
+            }
+            .benefit-card .icon {
+                font-size: 2em !important;
+            }
+            .benefit-card h3 {
+                font-size: 1.1em !important;
+            }
+            .benefit-card p {
+                font-size: 0.9em !important;
+            }
+            .slide-1 .subtitle {
+                font-size: 1.1em !important;
+            }
+            .slide-1 .meta {
+                font-size: 0.95em !important;
+            }
+            .nav-hint {
+                display: none;
+            }
+            .swipe-hint {
+                display: block;
+            }
+            .button-box {
+                margin-top: 20px;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -474,6 +556,7 @@
 
     <div class="slide-counter"><span id="current">1</span> / <span id="total">11</span></div>
     <div class="nav-hint">← → atau ↑ ↓ untuk navigasi</div>
+    <div class="swipe-hint">👆 Geser kiri/kanan/atas/bawah</div>
 
     <script>
         const slides = document.querySelectorAll('.slide');
@@ -506,6 +589,7 @@
             }
         }
 
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
                 e.preventDefault();
@@ -524,7 +608,11 @@
             }
         });
 
+        // Click navigation (desktop)
         document.addEventListener('click', (e) => {
+            // Jangan navigasi jika klik tombol/link
+            if (e.target.closest('a') || e.target.closest('button')) return;
+            
             const x = e.clientX;
             const width = window.innerWidth;
             if (x > width / 2) {
@@ -533,6 +621,55 @@
                 prevSlide();
             }
         });
+
+        // Touch / Swipe navigation for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        const minSwipeDistance = 40; // minimal jarak swipe (pixel)
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            const absX = Math.abs(diffX);
+            const absY = Math.abs(diffY);
+
+            // Pastikan swipe cukup panjang
+            if (Math.max(absX, absY) < minSwipeDistance) return;
+
+            // Tentukan arah dominan (horizontal vs vertikal)
+            if (absX > absY) {
+                // Swipe horizontal
+                if (diffX > 0) {
+                    // Geser ke kanan -> slide sebelumnya
+                    prevSlide();
+                } else {
+                    // Geser ke kiri -> slide berikutnya
+                    nextSlide();
+                }
+            } else {
+                // Swipe vertikal
+                if (diffY > 0) {
+                    // Geser ke bawah -> slide sebelumnya
+                    prevSlide();
+                } else {
+                    // Geser ke atas -> slide berikutnya
+                    nextSlide();
+                }
+            }
+        }
     </script>
 </body>
 </html>
