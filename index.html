@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKPD Informatika - Berpikir Komputasional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 60px 80px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Slide 1 - Title */
+        .slide-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .slide-1 h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .slide-1 .subtitle {
+            font-size: 1.5em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        .slide-1 .meta {
+            font-size: 1.1em;
+            opacity: 0.8;
+            margin-top: 30px;
+        }
+
+        /* Content slides */
+        .content-slide {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2d3748;
+        }
+        .content-slide h2 {
+            font-size: 2.8em;
+            color: #4a5568;
+            margin-bottom: 40px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        .content-slide p, .content-slide li {
+            font-size: 1.4em;
+            line-height: 1.8;
+            max-width: 900px;
+        }
+        .content-slide ul {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+        }
+        .content-slide ul li {
+            padding: 12px 0;
+            padding-left: 40px;
+            position: relative;
+        }
+        .content-slide ul li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        /* Pillar slides */
+        .pillar-slide {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #744210;
+        }
+        .pillar-slide h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #c05621;
+        }
+        .pillar-card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 850px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .pillar-card .definition {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .pillar-card .purpose {
+            font-size: 1.2em;
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border-left: 5px solid #c05621;
+            text-align: left;
+        }
+        .pillar-card .example {
+            margin-top: 20px;
+            font-size: 1.1em;
+            background: #fff5eb;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        /* Algorithm slide */
+        .algo-slide {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2d3748;
+        }
+        .algo-slide h2 {
+            color: #2c7a7b;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .algo-box {
+            background: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            padding: 30px 40px;
+            margin: 10px;
+            text-align: left;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .algo-box h3 {
+            color: #2c7a7b;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        .algo-box ol {
+            font-size: 1.1em;
+            line-height: 1.8;
+            padding-left: 25px;
+        }
+        .algo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1000px;
+        }
+
+        /* Benefits slide */
+        .benefits-slide {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            color: #22543d;
+        }
+        .benefits-slide h2 {
+            color: #276749;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+        }
+        .benefit-card {
+            background: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .benefit-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .benefit-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #276749;
+        }
+        .benefit-card p {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        /* Closing slide */
+        .closing-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .closing-slide h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .closing-slide p {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            font-size: 0.9em;
+            opacity: 0.5;
+            color: inherit;
+            z-index: 100;
+        }
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-size: 0.9em;
+            opacity: 0.5;
+            z-index: 100;
+        }
+
+        
+.button-box{margin-top:30px;text-align:center;}
+.btn{display:inline-block;background:#38a169;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:bold;font-size:clamp(1rem,2.5vw,1.2rem);transition:.3s}
+.btn:hover{background:#2f855a;transform:scale(1.05);}
+@media (max-width:768px){
+.slide{padding:20px !important;}
+.slide-container,.slide{min-height:100dvh;}
+.slide-1 h1{font-size:clamp(2rem,8vw,3rem)!important;}
+.content-slide h2,.pillar-slide h2,.algo-slide h2,.benefits-slide h2,.closing-slide h2{font-size:clamp(1.6rem,6vw,2.3rem)!important;}
+.content-slide p,.content-slide li,.pillar-card .definition,.pillar-card .purpose,.pillar-card .example{font-size:1rem!important;line-height:1.6;}
+.algo-grid,.benefits-grid{grid-template-columns:1fr!important;}
+}
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide { padding: 30px 40px; }
+            .slide-1 h1 { font-size: 2em; }
+            .content-slide h2 { font-size: 1.8em; }
+            .content-slide p, .content-slide li { font-size: 1.1em; }
+            .algo-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+
+        <!-- Slide 1: Judul -->
+        <div class="slide slide-1 active">
+            <div class="subtitle">Mata Pelajaran Informatika</div>
+            <h1>Berpikir Komputasional</h1>
+            <div class="subtitle">Computational Thinking</div>
+            <div class="meta">
+                Fase C / Kelas V & VI<br>
+                SD Widya Dharma Banjarmasin<br>
+                Semester I
+            </div>
+        </div>
+
+        <!-- Slide 2: Pengertian -->
+        <div class="slide content-slide">
+            <h2>Apa itu Berpikir Komputasional?</h2>
+            <p style="font-size: 1.5em; font-style: italic; color: #4a5568; margin-bottom: 30px;">
+                "Cara berpikir secara logis, sistematis, dan terstruktur untuk menyelesaikan masalah secara efektif dan efisien."
+            </p>
+            <ul>
+                <li>Tidak selalu memerlukan komputer</li>
+                <li>Dapat diterapkan langsung dalam kehidupan sehari-hari</li>
+                <li>Langkah pertama: <strong>memahami dan memecah masalah</strong> menjadi bagian yang lebih kecil</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: 4 Pilar -->
+        <div class="slide content-slide" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #702459;">
+            <h2 style="color: #97266d; border-color: #97266d;">4 Pilar Berpikir Komputasional</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin-top: 20px;">
+                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">🧩</div>
+                    <h3 style="font-size: 1.4em; color: #97266d;">Dekomposisi</h3>
+                    <p style="font-size: 1em;">Memecah masalah besar menjadi bagian kecil</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">🔍</div>
+                    <h3 style="font-size: 1.4em; color: #97266d;">Pengenalan Pola</h3>
+                    <p style="font-size: 1em;">Menemukan kesamaan dan keteraturan</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">🎯</div>
+                    <h3 style="font-size: 1.4em; color: #97266d;">Abstraksi</h3>
+                    <p style="font-size: 1em;">Fokus pada informasi penting</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.8); padding: 30px; border-radius: 15px;">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">📋</div>
+                    <h3 style="font-size: 1.4em; color: #97266d;">Algoritma</h3>
+                    <p style="font-size: 1em;">Langkah-langkah logis dan berurutan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Dekomposisi -->
+        <div class="slide pillar-slide">
+            <h2>🧩 Dekomposisi (Decomposition)</h2>
+            <div class="pillar-card">
+                <div class="definition">
+                    <strong>Pengertian:</strong> Memecah atau membagi masalah besar yang rumit menjadi bagian-bagian kecil agar lebih sederhana dan mudah diselesaikan.
+                </div>
+                <div class="purpose">
+                    <strong>Tujuan:</strong> Agar masalah tidak terasa berat dan lebih mudah dipahami serta diselesaikan satu per satu.
+                </div>
+                <div class="example">
+                    <strong>Contoh:</strong> Saat membersihkan kamar, pekerjaan dibagi menjadi menyapu, merapikan meja, dan membuang sampah.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Pengenalan Pola -->
+        <div class="slide pillar-slide" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); color: #2a4365;">
+            <h2 style="color: #2b6cb0;">🔍 Pengenalan Pola (Pattern Recognition)</h2>
+            <div class="pillar-card" style="border-left: 5px solid #2b6cb0;">
+                <div class="definition">
+                    <strong>Pengertian:</strong> Mengenali kesamaan, keteraturan, atau persamaan dari beberapa masalah yang dihadapi.
+                </div>
+                <div class="purpose">
+                    <strong>Manfaat:</strong> Menemukan cara penyelesaian yang lebih mudah dan efisien. Jika kita menemukan cara yang sama untuk dua masalah yang mirip, kita dapat menghemat waktu.
+                </div>
+                <div class="example">
+                    <strong>Contoh:</strong> Mengamati barisan angka 3, 6, 9, 12, ... (pola ditambah 3), sehingga angka berikutnya adalah 15.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Abstraksi -->
+        <div class="slide pillar-slide" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); color: #553c9a;">
+            <h2 style="color: #6b46c1;">🎯 Abstraksi (Abstraction)</h2>
+            <div class="pillar-card" style="border-left: 5px solid #6b46c1;">
+                <div class="definition">
+                    <strong>Pengertian:</strong> Memilih dan memfokuskan diri pada informasi yang penting, serta mengabaikan informasi yang tidak relevan.
+                </div>
+                <div class="purpose">
+                    <strong>Tujuan:</strong> Agar kita tidak terdistraksi oleh detail yang tidak perlu sehingga dapat menyelesaikan masalah dengan lebih fokus.
+                </div>
+                <div class="example">
+                    <strong>Contoh:</strong> Saat membuat jadwal belajar, fokus pada urutan mata pelajaran utama dan mengabaikan detail yang tidak penting.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Algoritma -->
+        <div class="slide pillar-slide" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #744210;">
+            <h2 style="color: #c05621;">📋 Algoritma (Algorithm)</h2>
+            <div class="pillar-card" style="border-left: 5px solid #c05621;">
+                <div class="definition">
+                    <strong>Pengertian:</strong> Langkah-langkah atau instruksi yang disusun secara logis, jelas, dan berurutan untuk menyelesaikan masalah.
+                </div>
+                <div class="purpose">
+                    <strong>Tujuan:</strong> Agar langkah penyelesaian masalah menjadi teratur dan meminimalkan kesalahan.
+                </div>
+                <div class="example" style="background: #fff5eb;">
+                    <strong>Catatan Penting:</strong> Menghafal <strong>bukan</strong> termasuk ke dalam komponen berpikir komputasional!
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Contoh Algoritma -->
+        <div class="slide algo-slide">
+            <h2>Contoh Algoritma dalam Kehidupan</h2>
+            <div class="algo-grid">
+                <div class="algo-box">
+                    <h3>🪥 Menyikat Gigi</h3>
+                    <ol>
+                        <li>Ambil sikat gigi</li>
+                        <li>Beri pasta gigi secukupnya</li>
+                        <li>Sikat gigi bagian depan dan belakang</li>
+                        <li>Berkumur dengan air bersih</li>
+                        <li>Bersihkan sikat gigi</li>
+                    </ol>
+                </div>
+                <div class="algo-box">
+                    <h3>🧼 Mencuci Tangan</h3>
+                    <ol>
+                        <li>Basahi tangan dengan air</li>
+                        <li>Gunakan sabun secukupnya</li>
+                        <li>Gosok tangan secara merata</li>
+                        <li>Bilas dengan air bersih</li>
+                        <li>Keringkan tangan</li>
+                    </ol>
+                </div>
+                <div class="algo-box">
+                    <h3>🍜 Membuat Mi Instan</h3>
+                    <ol>
+                        <li>Rebus air hingga mendidih</li>
+                        <li>Masukkan mi ke dalam air</li>
+                        <li>Tambahkan bumbu</li>
+                        <li>Masak hingga matang</li>
+                        <li>Tuang ke mangkuk dan sajikan</li>
+                    </ol>
+                </div>
+                <div class="algo-box">
+                    <h3>📅 Menyusun Jadwal Piket</h3>
+                    <ol>
+                        <li>Tentukan hari piket (Senin–Jumat)</li>
+                        <li>Bagi siswa menjadi beberapa kelompok</li>
+                        <li>Tentukan tugas masing-masing kelompok</li>
+                        <li>Buat daftar jadwal di papan tulis</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Manfaat -->
+        <div class="slide benefits-slide">
+            <h2>Manfaat Berpikir Komputasional</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon">⚡</div>
+                    <h3>Lebih Cepat & Efisien</h3>
+                    <p>Membantu menyelesaikan masalah sehari-hari dengan lebih mudah, cepat, dan tepat.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon">📋</div>
+                    <h3>Lebih Teratur</h3>
+                    <p>Membuat urutan pekerjaan menjadi lebih jelas dan sistematis.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon">🧠</div>
+                    <h3>Pola Pikir Efektif</h3>
+                    <p>Melatih pola pikir yang efektif dan efisien dalam kehidupan sehari-hari.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Kesimpulan -->
+        <div class="slide content-slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;">
+            <h2 style="color: #fff; border-color: #fff;">Kesimpulan</h2>
+            <p style="font-size: 1.4em; max-width: 800px; line-height: 2;">
+                Berpikir komputasional adalah keterampilan penting yang dapat kita gunakan untuk menyelesaikan berbagai masalah dalam kehidupan sehari-hari. Dengan <strong>4 pilar utama</strong> — Dekomposisi, Pengenalan Pola, Abstraksi, dan Algoritma — kita dapat menjadi pemecah masalah yang lebih baik!
+            </p>
+            <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                🎯 Mulailah menerapkannya dalam aktivitas sehari-harimu!
+            </p>
+        </div>
+
+        <!-- Slide 11: Penutup -->
+        <div class="slide closing-slide">
+            <h2>Terima Kasih!</h2>
+            <p>Selamat Belajar dan Berlatih 🌟</p>
+            <div style="margin-top: 40px; font-size: 1em; opacity: 0.8;">
+                SD Widya Dharma Banjarmasin<br>
+                Mata Pelajaran Informatika
+            </div>
+            <div class="button-box">
+                <a href="https://sujianduo.github.io/Kelas-6/" class="btn" target="_blank">
+                    Mulai mengerjakan soal latihan
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="slide-counter"><span id="current">1</span> / <span id="total">11</span></div>
+    <div class="nav-hint">← → atau ↑ ↓ untuk navigasi</div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        document.getElementById('total').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            document.getElementById('current').textContent = index + 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                currentSlide = 0;
+                showSlide(currentSlide);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                currentSlide = totalSlides - 1;
+                showSlide(currentSlide);
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            const x = e.clientX;
+            const width = window.innerWidth;
+            if (x > width / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
+    </script>
+</body>
+</html>
