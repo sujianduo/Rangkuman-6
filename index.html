@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content, user-scalable=no">
-    <title>Rangkuman Informatika - Berpikir Komputasional</title>
+    <title>LKPD Informatika - Berpikir Komputasional</title>
     <style>
         * {
             margin: 0;
@@ -330,6 +330,27 @@
             transform: scale(0.96);
         }
 
+        /* Scroll indicator for vertical content */
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            opacity: 0.3;
+            pointer-events: none;
+            color: inherit;
+            display: none;
+            animation: bounce 2s infinite;
+        }
+        .slide.active .scroll-hint {
+            display: block;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .slide {
@@ -417,6 +438,10 @@
                 background: #fff;
                 color: #4a5568;
             }
+
+            .scroll-hint {
+                display: none !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -457,6 +482,7 @@
                 SD Widya Dharma Banjarmasin<br>
                 Semester I
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 2: Pengertian -->
@@ -470,6 +496,7 @@
                 <li>Dapat diterapkan langsung dalam kehidupan sehari-hari</li>
                 <li>Langkah pertama: <strong>memahami dan memecah masalah</strong> menjadi bagian yang lebih kecil</li>
             </ul>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 3: 4 Pilar -->
@@ -497,6 +524,7 @@
                     <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Langkah-langkah logis dan berurutan</p>
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 4: Dekomposisi -->
@@ -513,6 +541,7 @@
                     <strong>Contoh:</strong> Saat membersihkan kamar, pekerjaan dibagi menjadi menyapu, merapikan meja, dan membuang sampah.
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 5: Pengenalan Pola -->
@@ -529,6 +558,7 @@
                     <strong>Contoh:</strong> Mengamati barisan angka 3, 6, 9, 12, ... (pola ditambah 3), sehingga angka berikutnya adalah 15.
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 6: Abstraksi -->
@@ -545,6 +575,7 @@
                     <strong>Contoh:</strong> Saat membuat jadwal belajar, fokus pada urutan mata pelajaran utama dan mengabaikan detail yang tidak penting.
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 7: Algoritma -->
@@ -561,6 +592,7 @@
                     <strong>Catatan Penting:</strong> Menghafal <strong>bukan</strong> termasuk ke dalam komponen berpikir komputasional!
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 8: Contoh Algoritma -->
@@ -607,6 +639,7 @@
                     </ol>
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 9: Manfaat -->
@@ -629,6 +662,7 @@
                     <p>Melatih pola pikir yang efektif dan efisien dalam kehidupan sehari-hari.</p>
                 </div>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 10: Kesimpulan -->
@@ -640,6 +674,7 @@
             <p style="margin-top: 32px; font-size: clamp(1rem, 3vw, 1.3rem); opacity: 0.92;">
                 🎯 Mulailah menerapkannya dalam aktivitas sehari-harimu!
             </p>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
         <!-- Slide 11: Penutup -->
@@ -655,6 +690,7 @@
                     Mulai mengerjakan soal latihan
                 </a>
             </div>
+            <div class="scroll-hint">↕ scroll untuk melihat konten</div>
         </div>
 
     </div>
@@ -671,6 +707,9 @@
         let currentSlide = 0;
         const totalSlides = slides.length;
         let isTransitioning = false;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
 
         document.getElementById('total').textContent = totalSlides;
 
@@ -682,6 +721,8 @@
                 slide.classList.remove('active');
                 if (i === index) {
                     slide.classList.add('active');
+                    // Reset scroll position saat pindah slide
+                    slide.scrollTop = 0;
                 }
             });
             document.getElementById('current').textContent = index + 1;
@@ -715,7 +756,7 @@
             prevSlide();
         });
 
-        // Keyboard navigation
+        // Keyboard navigation (hanya horizontal)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
                 e.preventDefault();
@@ -734,15 +775,13 @@
             }
         });
 
-        // Click on slide edges (desktop)
+        // Click on slide edges (desktop) - hanya horizontal
         document.addEventListener('click', (e) => {
-            // Jangan navigasi jika klik tombol, link, atau di dalam elemen interaktif
             if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.btn')) return;
             if (e.target.closest('.nav-btn')) return;
 
             const x = e.clientX;
             const width = window.innerWidth;
-            // threshold 30% dari sisi
             if (x > width * 0.7) {
                 nextSlide();
             } else if (x < width * 0.3) {
@@ -750,54 +789,62 @@
             }
         });
 
-        // Touch / Swipe
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-        const minSwipeDistance = 30;
-
+        // Touch / Swipe - HANYA horizontal yang mengganti halaman
         document.addEventListener('touchstart', (e) => {
+            // Catat posisi awal
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
+            isSwiping = false;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            // Deteksi arah swipe saat bergerak
+            if (!isSwiping && touchStartX !== 0) {
+                const currentX = e.changedTouches[0].screenX;
+                const currentY = e.changedTouches[0].screenY;
+                const diffX = Math.abs(currentX - touchStartX);
+                const diffY = Math.abs(currentY - touchStartY);
+                
+                // Jika swipe horizontal melebihi threshold, tandai sebagai swipe horizontal
+                if (diffX > 20 && diffX > diffY) {
+                    isSwiping = true;
+                }
+            }
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
-            // Jangan proses jika swipe dimulai dari tombol atau link
+            // Jangan proses jika menyentuh elemen interaktif
             const target = e.target.closest('a, button, .btn');
-            if (target) return;
+            if (target) {
+                touchStartX = 0;
+                touchStartY = 0;
+                isSwiping = false;
+                return;
+            }
 
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            
             const diffX = touchEndX - touchStartX;
             const diffY = touchEndY - touchStartY;
             const absX = Math.abs(diffX);
             const absY = Math.abs(diffY);
 
-            if (Math.max(absX, absY) < minSwipeDistance) return;
+            // Reset
+            touchStartX = 0;
+            touchStartY = 0;
 
-            const activeSlide = slides[currentSlide];
-
-            if (absY > absX && activeSlide.scrollHeight > activeSlide.clientHeight) {
-                const scrollTop = activeSlide.scrollTop;
-                const maxScroll = activeSlide.scrollHeight - activeSlide.clientHeight;
-
-                if (scrollTop > 5 && scrollTop < maxScroll - 5) return;
-
-                if (scrollTop <= 5 && diffY > 0) { prevSlide(); return; }
-                if (scrollTop >= maxScroll - 5 && diffY < 0) { nextSlide(); return; }
-                return;
+            // Hanya proses jika swipe horizontal yang dominan dan melewati threshold
+            if (absX > absY && absX > 30) {
+                if (diffX > 0) {
+                    prevSlide();
+                } else {
+                    nextSlide();
+                }
             }
-
-            if (absX > absY) {
-                if (diffX > 0) prevSlide();
-                else nextSlide();
-            }
-        }
+            
+            isSwiping = false;
+        }, { passive: true });
 
         // Tampilkan slide pertama
         showSlide(0);
