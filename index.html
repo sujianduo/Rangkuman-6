@@ -780,18 +780,22 @@
 
             if (Math.max(absX, absY) < minSwipeDistance) return;
 
+            const activeSlide = slides[currentSlide];
+
+            if (absY > absX && activeSlide.scrollHeight > activeSlide.clientHeight) {
+                const scrollTop = activeSlide.scrollTop;
+                const maxScroll = activeSlide.scrollHeight - activeSlide.clientHeight;
+
+                if (scrollTop > 5 && scrollTop < maxScroll - 5) return;
+
+                if (scrollTop <= 5 && diffY > 0) { prevSlide(); return; }
+                if (scrollTop >= maxScroll - 5 && diffY < 0) { nextSlide(); return; }
+                return;
+            }
+
             if (absX > absY) {
-                if (diffX > 0) {
-                    prevSlide();
-                } else {
-                    nextSlide();
-                }
-            } else {
-                if (diffY > 0) {
-                    prevSlide();
-                } else {
-                    nextSlide();
-                }
+                if (diffX > 0) prevSlide();
+                else nextSlide();
             }
         }
 
