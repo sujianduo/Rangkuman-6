@@ -697,47 +697,62 @@
       }
     });
 
-    // Touch Swipe Navigation: HANYA kiri/kanan
-    // Geser atas/bawah tidak pernah mengganti slide.
-    let touchstartX = 0;
-    let touchstartY = 0;
-    let touchendX = 0;
-    let touchendY = 0;
+    // TOUCH NAVIGATION: HANYA SWIPE HORIZONTAL
+    // Geser atas/bawah sepenuhnya diabaikan dan tidak mengubah slide.
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchTracking = false;
+    let horizontalSwipe = false;
 
     const sliderWrapper = document.getElementById('slideWrapper');
 
+    // Biarkan browser menangani scroll vertikal secara normal.
     sliderWrapper.style.touchAction = 'pan-y';
 
     sliderWrapper.addEventListener('touchstart', function(event) {
-      const touch = event.changedTouches[0];
-      touchstartX = touch.screenX;
-      touchstartY = touch.screenY;
+      if (!event.touches || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchTracking = true;
+      horizontalSwipe = false;
+    }, { passive: true });
+
+    sliderWrapper.addEventListener('touchmove', function(event) {
+      if (!touchTracking || !event.touches || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+
+      // Hanya tandai sebagai swipe jika horizontal benar-benar dominan.
+      horizontalSwipe = Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2;
     }, { passive: true });
 
     sliderWrapper.addEventListener('touchend', function(event) {
+      if (!touchTracking) return;
       const touch = event.changedTouches[0];
-      touchendX = touch.screenX;
-      touchendY = touch.screenY;
-      handleGesture();
-    }, { passive: true });
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      touchTracking = false;
 
-    function handleGesture() {
-      const deltaX = touchendX - touchstartX;
-      const deltaY = touchendY - touchstartY;
-      const minSwipe = 50;
-
-      // Abaikan semua gesture vertikal.
-      // Navigasi hanya jika gerakan horizontal lebih dominan daripada vertikal.
-      if (Math.abs(deltaX) < minSwipe || Math.abs(deltaX) <= Math.abs(deltaY)) {
+      // JANGAN lakukan apa pun untuk swipe vertikal.
+      if (!horizontalSwipe || Math.abs(dx) <= Math.abs(dy) * 1.2 || Math.abs(dx) < 50) {
+        horizontalSwipe = false;
         return;
       }
 
-      if (deltaX < 0) {
-        changeSlide(1);   // swipe kiri -> halaman berikutnya
+      if (dx < 0) {
+        changeSlide(1);       // kiri = berikutnya
       } else {
-        changeSlide(-1);  // swipe kanan -> halaman sebelumnya
+        changeSlide(-1);      // kanan = sebelumnya
       }
-    }
+      horizontalSwipe = false;
+    }, { passive: true });
+
+    sliderWrapper.addEventListener('touchcancel', function() {
+      touchTracking = false;
+      horizontalSwipe = false;
+    }, { passive: true });
 
     // Initialize slide on load
     window.onload = function() {
