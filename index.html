@@ -1,308 +1,92 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content, user-scalable=no">
-    <title>Rangkuman Informatika - Berpikir Komputasional</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1a2e;
-            color: #fff;
-            overflow: hidden;
-            height: 100%;
-            width: 100%;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .slide-container {
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: none;
-            padding: 60px 80px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            will-change: transform, opacity;
-            backface-visibility: hidden;
-            -webkit-overflow-scrolling: touch;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            opacity: 0;
-            transform: scale(0.96);
-        }
-
-        .slide.active {
-            display: flex;
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Slide 1 - Title */
-        .slide-1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .slide-1 h1 {
-            font-size: clamp(2.8rem, 10vw, 4.5rem);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-            letter-spacing: -0.5px;
-        }
-        .slide-1 .subtitle {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            opacity: 0.92;
-            margin-bottom: 6px;
-        }
-        .slide-1 .meta {
-            font-size: clamp(0.95rem, 2.5vw, 1.2rem);
-            opacity: 0.8;
-            margin-top: 30px;
-            line-height: 1.7;
-        }
-
-        /* Content slides */
-        .content-slide {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #2d3748;
-        }
-        .content-slide h2 {
-            font-size: clamp(2rem, 7vw, 3.2rem);
-            color: #4a5568;
-            margin-bottom: 30px;
-            border-bottom: 4px solid #667eea;
-            padding-bottom: 12px;
-            display: inline-block;
-        }
-        .content-slide p,
-        .content-slide li {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            line-height: 1.8;
-            max-width: 900px;
-        }
-        .content-slide ul {
-            text-align: left;
-            list-style: none;
-            padding: 0;
-        }
-        .content-slide ul li {
-            padding: 10px 0 10px 40px;
-            position: relative;
-        }
-        .content-slide ul li::before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-size: 1.3em;
-        }
-
-        /* Pillar slides */
-        .pillar-slide {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #744210;
-        }
-        .pillar-slide h2 {
-            font-size: clamp(2rem, 6vw, 2.8rem);
-            margin-bottom: 24px;
-            color: #c05621;
-        }
-        .pillar-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 850px;
-            width: 100%;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-            text-align: left;
-        }
-        .pillar-card .definition {
-            font-size: clamp(1rem, 2.8vw, 1.3rem);
-            margin-bottom: 18px;
-            font-style: italic;
-        }
-        .pillar-card .purpose {
-            font-size: clamp(0.95rem, 2.6vw, 1.2rem);
-            background: #fff;
-            padding: 16px 24px;
-            border-radius: 12px;
-            border-left: 5px solid #c05621;
-        }
-        .pillar-card .example {
-            margin-top: 18px;
-            font-size: clamp(0.9rem, 2.4vw, 1.1rem);
-            background: #fff5eb;
-            padding: 16px 24px;
-            border-radius: 12px;
-        }
-
-        /* Algorithm slide */
-        .algo-slide {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #2d3748;
-        }
-        .algo-slide h2 {
-            color: #2c7a7b;
-            font-size: clamp(2rem, 6vw, 2.8rem);
-            margin-bottom: 24px;
-        }
-        .algo-box {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 18px;
-            padding: 24px 28px;
-            text-align: left;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-            height: fit-content;
-        }
-        .algo-box h3 {
-            color: #2c7a7b;
-            margin-bottom: 8px;
-            font-size: clamp(1rem, 2.8vw, 1.3rem);
-        }
-        .algo-box ol {
-            font-size: clamp(0.9rem, 2.4vw, 1.1rem);
-            line-height: 1.8;
-            padding-left: 22px;
-        }
-        .algo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        /* Benefits slide */
-        .benefits-slide {
-            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
-            color: #22543d;
-        }
-        .benefits-slide h2 {
-            color: #276749;
-            font-size: clamp(2rem, 6vw, 2.8rem);
-            margin-bottom: 32px;
-        }
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1100px;
-            width: 100%;
-        }
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 28px 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            transition: transform 0.2s ease;
-        }
-        .benefit-card:active {
-            transform: scale(0.97);
-        }
-        .benefit-card .icon {
-            font-size: 2.8rem;
-            margin-bottom: 12px;
-        }
-        .benefit-card h3 {
-            font-size: clamp(1rem, 2.6vw, 1.25rem);
-            margin-bottom: 8px;
-            color: #276749;
-        }
-        .benefit-card p {
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            line-height: 1.5;
-        }
-
-        /* Closing slide */
-        .closing-slide {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .closing-slide h2 {
-            font-size: clamp(2.4rem, 8vw, 3.8rem);
-            margin-bottom: 16px;
-        }
-        .closing-slide p {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            opacity: 0.92;
-        }
-
-        /* Navigation buttons */
-        .nav-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 200;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(6px);
-            border: none;
-            color: #fff;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            font-size: 1.6rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s, transform 0.2s, opacity 0.3s;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            opacity: 0.6;
-            touch-action: manipulation;
-        }
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            opacity: 1;
-        }
-        .nav-btn:active {
-            transform: translateY(-50%) scale(0.92);
-            background: rgba(255, 255, 255, 0.35);
-        }
-        .nav-btn.prev {
-            left: 16px;
-        }
-        .nav-btn.next {
-            right: 16px;
-        }
-
-        /* Slide counter */
-        .slide-counter {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.85rem;
-            opacity: 0.5;
-            z-index: 100;
-            pointer-events: none;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(4px);
-            padding: 6px 16px;
-            border-radius: 30px;
-            letter-spacing: 0.5px;
-            color: #fff;
-        }
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rangkuman Informatika Kelas 6 - Bab 3 Sistem Komputer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #090d16;
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+      overflow-x: hidden;
+    }
+    .slide-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 16 / 9;
+      background-color: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .slide-container {
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      background-color: #ffffff;
+    }
+    .slide-container.active {
+      display: flex;
+      opacity: 1;
+      z-index: 10;
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 48px 0 48px;
+    }
+    .slide-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+    .slide-badge {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0284c7;
+      background-color: #f0f9ff;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid #bae6fd;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .content-area {
+      flex: 1;
+      padding: 28px 48px 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
         /* Button in closing */
         .button-box {
             margin-top: 32px;
@@ -328,464 +112,617 @@
         }
         .btn:active {
             transform: scale(0.96);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .slide {
-                padding: 20px 24px !important;
-                justify-content: flex-start;
-                padding-top: 40px !important;
-            }
-
-            .slide-1 {
-                justify-content: center !important;
-                padding-top: 20px !important;
-            }
-            .slide-1 h1 {
-                font-size: clamp(2.2rem, 12vw, 3rem) !important;
-            }
-
-            .content-slide ul li {
-                padding: 8px 0 8px 30px;
-                font-size: clamp(0.9rem, 3.5vw, 1.1rem) !important;
-            }
-
-            .pillar-card {
-                padding: 24px !important;
-            }
-            .pillar-card .definition,
-            .pillar-card .purpose,
-            .pillar-card .example {
-                font-size: clamp(0.9rem, 3vw, 1rem) !important;
-            }
-
-            .algo-grid {
-                grid-template-columns: 1fr !important;
-                gap: 14px !important;
-            }
-            .algo-box {
-                padding: 16px 20px !important;
-            }
-            .algo-box ol {
-                font-size: clamp(0.85rem, 3vw, 1rem) !important;
-                padding-left: 18px;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr !important;
-                gap: 14px !important;
-                max-width: 400px;
-            }
-            .benefit-card {
-                padding: 18px 16px !important;
-            }
-            .benefit-card .icon {
-                font-size: 2.2rem !important;
-            }
-            .benefit-card h3 {
-                font-size: 1rem !important;
-            }
-            .benefit-card p {
-                font-size: 0.85rem !important;
-            }
-
-            .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-                opacity: 0.5;
-            }
-            .nav-btn.prev {
-                left: 8px;
-            }
-            .nav-btn.next {
-                right: 8px;
-            }
-
-            .slide-counter {
-                font-size: 0.7rem;
-                padding: 4px 14px;
-                bottom: 14px;
-            }
-
-            .btn {
-                padding: 12px 28px;
-                font-size: 0.95rem;
-            }
-            .closing-slide .btn {
-                background: #fff;
-                color: #4a5568;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .slide {
-                padding: 16px 16px !important;
-                padding-top: 30px !important;
-            }
-            .slide-1 {
-                padding-top: 10px !important;
-            }
-            .pillar-card {
-                padding: 18px !important;
-            }
-            .algo-box {
-                padding: 14px 16px !important;
-            }
-            .benefit-card {
-                padding: 14px 12px !important;
-            }
-            .nav-btn {
-                width: 34px;
-                height: 34px;
-                font-size: 1rem;
-            }
-        }
-    </style>
-<base target="_blank">
+        }	
+  </style>
 </head>
 <body>
-    <div class="slide-container">
 
-        <!-- Slide 1: Judul -->
-        <div class="slide slide-1 active">
-            <div class="subtitle">Mata Pelajaran Informatika</div>
-            <h1>Berpikir Komputasional</h1>
-            <div class="subtitle">Computational Thinking</div>
-            <div class="meta">
-                Fase C / Kelas V & VI<br>
-                SD Widya Dharma Banjarmasin<br>
-                Semester I
-            </div>
+  <div class="slide-wrapper" id="slideWrapper">
+    
+    <!-- SLIDE 1: COVER SLIDE -->
+    <div class="slide-container active" id="slide1" style="background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%); padding: 48px 56px; justify-content: space-between;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #38bdf8;"></div>
+          <span contenteditable="true" style="font-size: 15px; font-weight: 700; color: #e0f2fe; letter-spacing: 0.05em; text-transform: uppercase;">SD Widya Dharma Banjarmasin</span>
+        </div>
+        <span contenteditable="true" style="font-size: 14px; font-weight: 600; color: #38bdf8; background-color: rgba(56, 189, 248, 0.15); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(56, 189, 248, 0.3);">Informatika • Fase C Kelas VI</span>
+      </div>
+
+      <div style="max-width: 900px;">
+        <p contenteditable="true" style="font-size: 18px; font-weight: 700; color: #7dd3fc; margin-bottom: 12px; letter-spacing: 0.03em;">RANGKUMAN MATERI BAB 3</p>
+        <h1 contenteditable="true" style="font-size: 52px; font-weight: 800; color: #ffffff; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 18px;">
+          Sistem Komputer &amp; Antarmuka Pengguna
+        </h1>
+        <p contenteditable="true" style="font-size: 20px; font-weight: 400; color: #e2e8f0; line-height: 1.5; max-width: 780px;">
+          Panduan komprehensif memahami komponen sistem komputer, klasifikasi software, antarmuka GUI vs CLI, serta manajemen berkas untuk persiapan Sumatif Harian.
+        </p>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 20px;">
+        <div style="display: flex; gap: 32px;">
+          <div>
+            <p style="font-size: 12px; color: #94a3b8; font-weight: 600;">SEMESTER / TP</p>
+            <p contenteditable="true" style="font-size: 15px; color: #f8fafc; font-weight: 700; margin-top: 2px;">Semester I (2026/2027)</p>
+          </div>
+          <div>
+            <p style="font-size: 12px; color: #94a3b8; font-weight: 600;">TARGET UTAMA</p>
+            <p contenteditable="true" style="font-size: 15px; color: #f8fafc; font-weight: 700; margin-top: 2px;">Asesmen Sumatif Harian</p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 12px;">
+          <i class="fa-solid fa-laptop-code" style="color: #38bdf8; font-size: 20px;"></i>
+          <span contenteditable="true" style="font-size: 14px; color: #f8fafc; font-weight: 600;">Modul Pembelajaran Kurikulum Merdeka</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: SISTEM KOMPUTER & 3 BAGIAN UTAMA -->
+    <div class="slide-container" id="slide2">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Apa itu Sistem Komputer &amp; Bagian Utamanya?</h2>
+        <span class="slide-badge"><i class="fa-solid fa-cubes"></i> Bab 3 - Konsep Dasar</span>
+      </div>
+
+      <div class="content-area">
+        <!-- Defintion Box -->
+        <div style="background-color: #f0f9ff; border-left: 5px solid #0284c7; padding: 20px 24px; border-radius: 0 14px 14px 0; margin-bottom: 24px;">
+          <h3 contenteditable="true" style="font-size: 20px; font-weight: 800; color: #0369a1; margin-bottom: 6px;">Pengertian Sistem Komputer</h3>
+          <p contenteditable="true" style="font-size: 17px; color: #334155; line-height: 1.5;">
+            Kumpulan perangkat komputer yang <b>saling berhubungan dan berinteraksi</b> satu sama lain untuk menjalankan tugas serta mengolah data menggunakan komputer.
+          </p>
         </div>
 
-        <!-- Slide 2: Pengertian -->
-        <div class="slide content-slide">
-            <h2>Apa itu Berpikir Komputasional?</h2>
-            <p style="font-size: clamp(1.2rem, 4vw, 1.8rem); font-style: italic; color: #4a5568; margin-bottom: 24px; max-width: 850px;">
-                "Cara berpikir secara logis, sistematis, dan terstruktur untuk menyelesaikan masalah secara efektif dan efisien."
-            </p>
-            <ul>
-                <li>Tidak selalu memerlukan komputer</li>
-                <li>Dapat diterapkan langsung dalam kehidupan sehari-hari</li>
-                <li>Langkah pertama: <strong>memahami dan memecah masalah</strong> menjadi bagian yang lebih kecil</li>
+        <p style="font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 16px;">3 BAGIAN UTAMA SISTEM KOMPUTER:</p>
+
+        <div style="display: flex; gap: 20px; width: 100%;">
+          <!-- Hardware -->
+          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; flex: 1; text-align: center;">
+            <div style="width: 48px; height: 48px; background-color: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+              <i class="fa-solid fa-microchip" style="font-size: 22px; color: #2563eb;"></i>
+            </div>
+            <h4 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">1. Hardware</h4>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b;">Perangkat Keras fisik yang tampak &amp; dapat disentuh (Keyboard, CPU, Monitor).</p>
+          </div>
+
+          <!-- Software -->
+          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; flex: 1; text-align: center;">
+            <div style="width: 48px; height: 48px; background-color: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+              <i class="fa-solid fa-code" style="font-size: 22px; color: #16a34a;"></i>
+            </div>
+            <h4 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">2. Software</h4>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b;">Perangkat Lunak berupa program/aplikasi yang mengontrol jalannya sistem.</p>
+          </div>
+
+          <!-- Brainware -->
+          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; flex: 1; text-align: center;">
+            <div style="width: 48px; height: 48px; background-color: #faf5ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+              <i class="fa-solid fa-user-gear" style="font-size: 22px; color: #9333ea;"></i>
+            </div>
+            <h4 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">3. Brainware</h4>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b;">Pengguna/manusia yang mengoperasikan &amp; mengendalikan komputer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: 3 JENIS SOFTWARE BERDASARKAN FUNGSI -->
+    <div class="slide-container" id="slide3">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Pembagian Software Berdasarkan Fungsinya</h2>
+        <span class="slide-badge"><i class="fa-solid fa-layer-group"></i> Klasifikasi Software</span>
+      </div>
+
+      <div class="content-area">
+        <p contenteditable="true" style="font-size: 16px; color: #64748b; margin-bottom: 20px;">
+          Software (Perangkat Lunak) dibagi menjadi <b>3 kelompok utama</b> sesuai tugas &amp; perannya:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <!-- 1. System Software -->
+          <div style="display: flex; align-items: center; gap: 20px; background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 18px 24px; border-radius: 14px;">
+            <div style="width: 46px; height: 46px; background-color: #2563eb; color: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; flex-shrink: 0;">1</div>
+            <div>
+              <h4 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #1e40af;">System Software (Sistem Operasi / OS)</h4>
+              <p contenteditable="true" style="font-size: 15px; color: #1e3a8a; margin-top: 2px;">
+                Perangkat lunak utama yang mengendalikan seluruh sumber daya komputer &amp; menghubungkan hardware dengan pengguna. <br><span style="font-weight: 600; color: #2563eb;">Contoh: Microsoft Windows, Linux, macOS, Android, iOS.</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- 2. Utility Software -->
+          <div style="display: flex; align-items: center; gap: 20px; background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px 24px; border-radius: 14px;">
+            <div style="width: 46px; height: 46px; background-color: #16a34a; color: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; flex-shrink: 0;">2</div>
+            <div>
+              <h4 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #14532d;">Utility Software (Perangkat Lunak Pengatur)</h4>
+              <p contenteditable="true" style="font-size: 15px; color: #15803d; margin-top: 2px;">
+                Berfungsi membantu mengoptimalkan, merawat, dan mengamankan kinerja komputer. <br><span style="font-weight: 600; color: #16a34a;">Contoh: Antivirus, Cleaner, Firewall, Disk Defragmenter.</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- 3. Application Software -->
+          <div style="display: flex; align-items: center; gap: 20px; background-color: #faf5ff; border: 1px solid #e9d5ff; padding: 18px 24px; border-radius: 14px;">
+            <div style="width: 46px; height: 46px; background-color: #9333ea; color: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; flex-shrink: 0;">3</div>
+            <div>
+              <h4 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #6b21a8;">Application Software (Perangkat Lunak Aplikasi)</h4>
+              <p contenteditable="true" style="font-size: 15px; color: #581c87; margin-top: 2px;">
+                Software khusus yang dibuat untuk membantu pekerjaan spesifik atau hiburan pengguna. <br><span style="font-weight: 600; color: #9333ea;">Contoh: Microsoft Word, Excel, Google Chrome, Mobile Legends.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: HIRARKI PERANGKAT LUNAK -->
+    <div class="slide-container" id="slide4">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Hirarki Urutan Kerja Perangkat Lunak</h2>
+        <span class="slide-badge"><i class="fa-solid fa-sitemap"></i> Struktur Hirarki</span>
+      </div>
+
+      <div class="content-area">
+        <p contenteditable="true" style="font-size: 17px; color: #334155; margin-bottom: 28px; text-align: center;">
+          Perangkat lunak bekerja berdasarkan hirarki tingkatan dari lapisan terbawah hingga lapisan terluas:
+        </p>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%;">
+          
+          <!-- Step 1 -->
+          <div style="flex: 1; background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 100%); border: 2px solid #2563eb; border-radius: 16px; padding: 28px 20px; text-align: center;">
+            <div style="width: 40px; height: 40px; background-color: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto 12px auto;">1</div>
+            <h3 contenteditable="true" style="font-size: 20px; font-weight: 800; color: #1e40af; margin-bottom: 8px;">System Software</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #1e3a8a;">Fondasi utama yang langsung mengontrol Hardware komputer.</p>
+          </div>
+
+          <i class="fa-solid fa-chevron-right" style="font-size: 28px; color: #0284c7;"></i>
+
+          <!-- Step 2 -->
+          <div style="flex: 1; background: linear-gradient(180deg, #dcfce7 0%, #f0fdf4 100%); border: 2px solid #16a34a; border-radius: 16px; padding: 28px 20px; text-align: center;">
+            <div style="width: 40px; height: 40px; background-color: #16a34a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto 12px auto;">2</div>
+            <h3 contenteditable="true" style="font-size: 20px; font-weight: 800; color: #14532d; margin-bottom: 8px;">Utility Software</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #15803d;">Merawat, menjaga, dan mengoptimalkan fungsi sistem.</p>
+          </div>
+
+          <i class="fa-solid fa-chevron-right" style="font-size: 28px; color: #0284c7;"></i>
+
+          <!-- Step 3 -->
+          <div style="flex: 1; background: linear-gradient(180deg, #f3e8ff 0%, #faf5ff 100%); border: 2px solid #9333ea; border-radius: 16px; padding: 28px 20px; text-align: center;">
+            <div style="width: 40px; height: 40px; background-color: #9333ea; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto 12px auto;">3</div>
+            <h3 contenteditable="true" style="font-size: 20px; font-weight: 800; color: #6b21a8; margin-bottom: 8px;">Application Software</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #581c87;">Aplikasi akhir yang langsung dipakai pengguna untuk bekerja.</p>
+          </div>
+
+        </div>
+
+        <div style="background-color: #fffbeeb0; border: 1px solid #fde68a; padding: 14px 20px; border-radius: 12px; margin-top: 28px; text-align: center;">
+          <p contenteditable="true" style="font-size: 15px; color: #92400e; font-weight: 600;">
+            <i class="fa-solid fa-key" style="color: #d97706; margin-right: 6px;"></i> Urutan Hirarki = <b>system software &rarr; utility software &rarr; application software</b>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SISTEM OPERASI (OS) COMPUTER & MOBILE -->
+    <div class="slide-container" id="slide5">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Contoh Sistem Operasi (Operating System / OS)</h2>
+        <span class="slide-badge"><i class="fa-brands fa-windows"></i> Sistem Operasi</span>
+      </div>
+
+      <div class="content-area">
+        <div style="display: flex; gap: 28px; width: 100%;">
+          
+          <!-- OS Komputer / Laptop -->
+          <div style="flex: 1; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 16px; padding: 28px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <i class="fa-solid fa-desktop" style="font-size: 26px; color: #2563eb;"></i>
+              <h3 contenteditable="true" style="font-size: 22px; font-weight: 800; color: #0f172a;">Sistem Operasi Komputer</h3>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px;">
+              <li style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #334155;">
+                <i class="fa-brands fa-windows" style="font-size: 20px; color: #0284c7; width: 24px;"></i>
+                <span contenteditable="true"><b>Microsoft Windows</b> (Populer buatan Microsoft)</span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #334155;">
+                <i class="fa-brands fa-linux" style="font-size: 20px; color: #000; width: 24px;"></i>
+                <span contenteditable="true"><b>Linux</b> (Sistem operasi open-source gratis)</span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #334155;">
+                <i class="fa-brands fa-apple" style="font-size: 20px; color: #475569; width: 24px;"></i>
+                <span contenteditable="true"><b>macOS</b> (Sistem operasi khusus perangkat Apple)</span>
+              </li>
             </ul>
-        </div>
+          </div>
 
-        <!-- Slide 3: 4 Pilar -->
-        <div class="slide content-slide" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #702459;">
-            <h2 style="color: #97266d; border-color: #97266d;">4 Pilar Berpikir Komputasional</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; width: 100%; margin-top: 16px;">
-                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-                    <div style="font-size: 2.8rem; margin-bottom: 8px;">🧩</div>
-                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Dekomposisi</h3>
-                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Memecah masalah besar menjadi bagian kecil</p>
-                </div>
-                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-                    <div style="font-size: 2.8rem; margin-bottom: 8px;">🔍</div>
-                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Pengenalan Pola</h3>
-                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Menemukan kesamaan dan keteraturan</p>
-                </div>
-                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-                    <div style="font-size: 2.8rem; margin-bottom: 8px;">🎯</div>
-                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Abstraksi</h3>
-                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Fokus pada informasi penting</p>
-                </div>
-                <div style="background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); padding: 24px 16px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-                    <div style="font-size: 2.8rem; margin-bottom: 8px;">📋</div>
-                    <h3 style="font-size: clamp(1.1rem, 3vw, 1.4rem); color: #97266d;">Algoritma</h3>
-                    <p style="font-size: clamp(0.85rem, 2vw, 1rem);">Langkah-langkah logis dan berurutan</p>
-                </div>
+          <!-- OS Smartphone / Tablet -->
+          <div style="flex: 1; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 16px; padding: 28px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <i class="fa-solid fa-mobile-screen-button" style="font-size: 26px; color: #16a34a;"></i>
+              <h3 contenteditable="true" style="font-size: 22px; font-weight: 800; color: #0f172a;">Sistem Operasi Smartphone</h3>
             </div>
-        </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px;">
+              <li style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #334155;">
+                <i class="fa-brands fa-android" style="font-size: 22px; color: #16a34a; width: 24px;"></i>
+                <span contenteditable="true"><b>Android</b> (Paling banyak digunakan pada smartphone)</span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #334155;">
+                <i class="fa-brands fa-apple" style="font-size: 22px; color: #0284c7; width: 24px;"></i>
+                <span contenteditable="true"><b>iOS</b> (Sistem operasi khusus iPhone/iPad)</span>
+              </li>
+            </ul>
+          </div>
 
-        <!-- Slide 4: Dekomposisi -->
-        <div class="slide pillar-slide">
-            <h2>🧩 Dekomposisi (Decomposition)</h2>
-            <div class="pillar-card">
-                <div class="definition">
-                    <strong>Pengertian:</strong> Memecah atau membagi masalah besar yang rumit menjadi bagian-bagian kecil agar lebih sederhana dan mudah diselesaikan.
-                </div>
-                <div class="purpose">
-                    <strong>Tujuan:</strong> Agar masalah tidak terasa berat dan lebih mudah dipahami serta diselesaikan satu per satu.
-                </div>
-                <div class="example">
-                    <strong>Contoh:</strong> Saat membersihkan kamar, pekerjaan dibagi menjadi menyapu, merapikan meja, dan membuang sampah.
-                </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: ANTARMUKA PENGGUNA (GUI VS CLI) -->
+    <div class="slide-container" id="slide6">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Antarmuka Pengguna: GUI vs CLI</h2>
+        <span class="slide-badge"><i class="fa-solid fa-sliders"></i> User Interface</span>
+      </div>
+
+      <div class="content-area">
+        <div style="display: flex; gap: 28px; width: 100%;">
+          
+          <!-- GUI Card -->
+          <div style="flex: 1; background-color: #f0f9ff; border: 2px solid #38bdf8; border-radius: 16px; padding: 28px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+              <h3 contenteditable="true" style="font-size: 22px; font-weight: 800; color: #0369a1;">1. GUI (Graphical User Interface)</h3>
+              <i class="fa-solid fa-icons" style="font-size: 28px; color: #0284c7;"></i>
             </div>
-        </div>
+            <p contenteditable="true" style="font-size: 15px; color: #0f172a; font-weight: 600; margin-bottom: 12px;">Antarmuka Berbasis Grafis Visual</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #334155;">
+              <li style="display: flex; gap: 8px;"><i class="fa-solid fa-check" style="color: #0284c7; margin-top: 4px;"></i> <span contenteditable="true">Menggunakan visual grafis: tombol, ikon, cursor, dan menu.</span></li>
+              <li style="display: flex; gap: 8px;"><i class="fa-solid fa-check" style="color: #0284c7; margin-top: 4px;"></i> <span contenteditable="true">Sangat mudah digunakan pengguna umum (User-friendly).</span></li>
+              <li style="display: flex; gap: 8px;"><i class="fa-solid fa-check" style="color: #0284c7; margin-top: 4px;"></i> <span contenteditable="true">Cukup klik dengan mouse/sentuhan tanpa hafalan perintah.</span></li>
+            </ul>
+          </div>
 
-        <!-- Slide 5: Pengenalan Pola -->
-        <div class="slide pillar-slide" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); color: #2a4365;">
-            <h2 style="color: #2b6cb0;">🔍 Pengenalan Pola (Pattern Recognition)</h2>
-            <div class="pillar-card" style="border-left: 5px solid #2b6cb0;">
-                <div class="definition">
-                    <strong>Pengertian:</strong> Mengenali kesamaan, keteraturan, atau persamaan dari beberapa masalah yang dihadapi.
-                </div>
-                <div class="purpose">
-                    <strong>Manfaat:</strong> Menemukan cara penyelesaian yang lebih mudah dan efisien. Jika kita menemukan cara yang sama untuk dua masalah yang mirip, kita dapat menghemat waktu.
-                </div>
-                <div class="example">
-                    <strong>Contoh:</strong> Mengamati barisan angka 3, 6, 9, 12, ... (pola ditambah 3), sehingga angka berikutnya adalah 15.
-                </div>
+          <!-- CLI Card -->
+          <div style="flex: 1; background-color: #1e293b; color: #f8fafc; border-radius: 16px; padding: 28px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+              <h3 contenteditable="true" style="font-size: 22px; font-weight: 800; color: #38bdf8;">2. CLI (Command Line Interface)</h3>
+              <i class="fa-solid fa-terminal" style="font-size: 28px; color: #38bdf8;"></i>
             </div>
-        </div>
+            <p contenteditable="true" style="font-size: 15px; color: #cbd5e1; font-weight: 600; margin-bottom: 12px;">Antarmuka Berbasis Baris Perintah Teks</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #94a3b8;">
+              <li style="display: flex; gap: 8px;"><i class="fa-solid fa-angle-right" style="color: #38bdf8; margin-top: 4px;"></i> <span contenteditable="true">Pengguna harus mengetikkan baris perintah kode khusus.</span></li>
+              <li style="display: flex; gap: 8px;"><i class="fa-solid fa-angle-right" style="color: #38bdf8; margin-top: 4px;"></i> <span contenteditable="true">Hanya menampilkan layar hitam berisi tulisan teks tanpa grafis.</span></li>
+              <li style="display: flex; gap: 8px;"><i class="fa-solid fa-angle-right" style="color: #38bdf8; margin-top: 4px;"></i> <span contenteditable="true">Membutuhkan hafalan kode/perintah sistem secara presisi.</span></li>
+            </ul>
+          </div>
 
-        <!-- Slide 6: Abstraksi -->
-        <div class="slide pillar-slide" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); color: #553c9a;">
-            <h2 style="color: #6b46c1;">🎯 Abstraksi (Abstraction)</h2>
-            <div class="pillar-card" style="border-left: 5px solid #6b46c1;">
-                <div class="definition">
-                    <strong>Pengertian:</strong> Memilih dan memfokuskan diri pada informasi yang penting, serta mengabaikan informasi yang tidak relevan.
-                </div>
-                <div class="purpose">
-                    <strong>Tujuan:</strong> Agar kita tidak terdistraksi oleh detail yang tidak perlu sehingga dapat menyelesaikan masalah dengan lebih fokus.
-                </div>
-                <div class="example">
-                    <strong>Contoh:</strong> Saat membuat jadwal belajar, fokus pada urutan mata pelajaran utama dan mengabaikan detail yang tidak penting.
-                </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: ELEMEN-ELEMEN PENTING ANTARMUKA GUI -->
+    <div class="slide-container" id="slide7">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Elemen Visual Utama Pada Antarmuka GUI</h2>
+        <span class="slide-badge"><i class="fa-solid fa-window-maximize"></i> Komponen GUI</span>
+      </div>
+
+      <div class="content-area">
+        <div style="display: flex; gap: 20px; align-items: center; width: 100%;">
+          
+          <!-- Desktop -->
+          <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 24px 20px; flex: 1; text-align: center;">
+            <div style="width: 50px; height: 50px; background-color: #e0f2fe; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+              <i class="fa-solid fa-desktop" style="font-size: 24px; color: #0284c7;"></i>
             </div>
-        </div>
+            <h3 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Desktop</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b; line-height: 1.4;">Tampilan halaman utama layar komputer saat pertama kali dinyalakan.</p>
+          </div>
 
-        <!-- Slide 7: Algoritma -->
-        <div class="slide pillar-slide" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #744210;">
-            <h2 style="color: #c05621;">📋 Algoritma (Algorithm)</h2>
-            <div class="pillar-card" style="border-left: 5px solid #c05621;">
-                <div class="definition">
-                    <strong>Pengertian:</strong> Langkah-langkah atau instruksi yang disusun secara logis, jelas, dan berurutan untuk menyelesaikan masalah.
-                </div>
-                <div class="purpose">
-                    <strong>Tujuan:</strong> Agar langkah penyelesaian masalah menjadi teratur dan meminimalkan kesalahan.
-                </div>
-                <div class="example" style="background: #fff5eb;">
-                    <strong>Catatan Penting:</strong> Menghafal <strong>bukan</strong> termasuk ke dalam komponen berpikir komputasional!
-                </div>
+          <!-- Ikon -->
+          <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 24px 20px; flex: 1; text-align: center;">
+            <div style="width: 50px; height: 50px; background-color: #dcfce7; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+              <i class="fa-solid fa-icons" style="font-size: 24px; color: #16a34a;"></i>
             </div>
-        </div>
+            <h3 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Ikon (Icon)</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b; line-height: 1.4;">Simbol / gambar kecil visual yang mewakili aplikasi, berkas, atau folder.</p>
+          </div>
 
-        <!-- Slide 8: Contoh Algoritma -->
-        <div class="slide algo-slide">
-            <h2>Contoh Algoritma dalam Kehidupan</h2>
-            <div class="algo-grid">
-                <div class="algo-box">
-                    <h3>🪥 Menyikat Gigi</h3>
-                    <ol>
-                        <li>Ambil sikat gigi</li>
-                        <li>Beri pasta gigi secukupnya</li>
-                        <li>Sikat gigi bagian depan dan belakang</li>
-                        <li>Berkumur dengan air bersih</li>
-                        <li>Bersihkan sikat gigi</li>
-                    </ol>
-                </div>
-                <div class="algo-box">
-                    <h3>🧼 Mencuci Tangan</h3>
-                    <ol>
-                        <li>Basahi tangan dengan air</li>
-                        <li>Gunakan sabun secukupnya</li>
-                        <li>Gosok tangan secara merata</li>
-                        <li>Bilas dengan air bersih</li>
-                        <li>Keringkan tangan</li>
-                    </ol>
-                </div>
-                <div class="algo-box">
-                    <h3>🍜 Membuat Mi Instan</h3>
-                    <ol>
-                        <li>Rebus air hingga mendidih</li>
-                        <li>Masukkan mi ke dalam air</li>
-                        <li>Tambahkan bumbu</li>
-                        <li>Masak hingga matang</li>
-                        <li>Tuang ke mangkuk dan sajikan</li>
-                    </ol>
-                </div>
-                <div class="algo-box">
-                    <h3>📅 Menyusun Jadwal Piket</h3>
-                    <ol>
-                        <li>Tentukan hari piket (Senin–Jumat)</li>
-                        <li>Bagi siswa menjadi beberapa kelompok</li>
-                        <li>Tentukan tugas masing-masing kelompok</li>
-                        <li>Buat daftar jadwal di papan tulis</li>
-                    </ol>
-                </div>
+          <!-- Taskbar -->
+          <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 24px 20px; flex: 1; text-align: center;">
+            <div style="width: 50px; height: 50px; background-color: #f3e8ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+              <i class="fa-solid fa-[#9333ea] fa-window-minimize" style="font-size: 24px; color: #9333ea;"></i>
             </div>
-        </div>
+            <h3 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Taskbar</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b; line-height: 1.4;">Bilah panjang di bagian bawah layar tempat ikon aplikasi yang sedang aktif.</p>
+          </div>
 
-        <!-- Slide 9: Manfaat -->
-        <div class="slide benefits-slide">
-            <h2>Manfaat Berpikir Komputasional</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon">⚡</div>
-                    <h3>Lebih Cepat & Efisien</h3>
-                    <p>Membantu menyelesaikan masalah sehari-hari dengan lebih mudah, cepat, dan tepat.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon">📋</div>
-                    <h3>Lebih Teratur</h3>
-                    <p>Membuat urutan pekerjaan menjadi lebih jelas dan sistematis.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon">🧠</div>
-                    <h3>Pola Pikir Efektif</h3>
-                    <p>Melatih pola pikir yang efektif dan efisien dalam kehidupan sehari-hari.</p>
-                </div>
+          <!-- Cursor -->
+          <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 24px 20px; flex: 1; text-align: center;">
+            <div style="width: 50px; height: 50px; background-color: #fef3c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+              <i class="fa-solid fa-arrow-pointer" style="font-size: 24px; color: #d97706;"></i>
             </div>
-        </div>
+            <h3 contenteditable="true" style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Cursor (Kursor)</h3>
+            <p contenteditable="true" style="font-size: 14px; color: #64748b; line-height: 1.4;">Penunjuk posisi pada layar yang digerakkan menggunakan mouse atau touchpad.</p>
+          </div>
 
-        <!-- Slide 10: Kesimpulan -->
-        <div class="slide content-slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;">
-            <h2 style="color: #fff; border-color: #fff;">Kesimpulan</h2>
-            <p style="font-size: clamp(1.1rem, 3.5vw, 1.6rem); max-width: 800px; line-height: 2;">
-                Berpikir komputasional adalah keterampilan penting yang dapat kita gunakan untuk menyelesaikan berbagai masalah dalam kehidupan sehari-hari. Dengan <strong>4 pilar utama</strong> — Dekomposisi, Pengenalan Pola, Abstraksi, dan Algoritma — kita dapat menjadi pemecah masalah yang lebih baik!
-            </p>
-            <p style="margin-top: 32px; font-size: clamp(1rem, 3vw, 1.3rem); opacity: 0.92;">
-                🎯 Mulailah menerapkannya dalam aktivitas sehari-harimu!
-            </p>
         </div>
+      </div>
+    </div>
 
-        <!-- Slide 11: Penutup -->
-        <div class="slide closing-slide">
-            <h2>Terima Kasih!</h2>
-            <p>Selamat Belajar dan Berlatih 🌟</p>
-            <div style="margin-top: 24px; font-size: clamp(0.9rem, 2.5vw, 1.1rem); opacity: 0.85; line-height: 1.7;">
-                SD Widya Dharma Banjarmasin<br>
-                Mata Pelajaran Informatika
+    <!-- SLIDE 8: KEUNGGULAN UTAMA GUI DIBANDING CLI -->
+    <div class="slide-container" id="slide8">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Keunggulan GUI Dibandingkan CLI</h2>
+        <span class="slide-badge"><i class="fa-solid fa-star"></i> Keunggulan GUI</span>
+      </div>
+
+      <div class="content-area">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          
+          <div style="display: flex; align-items: flex-start; gap: 18px; background-color: #f0fdf4; border-left: 5px solid #16a34a; padding: 20px; border-radius: 0 12px 12px 0;">
+            <i class="fa-solid fa-circle-check" style="font-size: 24px; color: #16a34a; margin-top: 2px;"></i>
+            <div>
+              <h3 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #14532d;">1. Mudah Digunakan (User Friendly)</h3>
+              <p contenteditable="true" style="font-size: 15px; color: #15803d; margin-top: 4px;">Pengguna tidak perlu menghafal ratusan kode/perintah baris teks seperti pada CLI.</p>
             </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 18px; background-color: #f0fdf4; border-left: 5px solid #16a34a; padding: 20px; border-radius: 0 12px 12px 0;">
+            <i class="fa-solid fa-circle-check" style="font-size: 24px; color: #16a34a; margin-top: 2px;"></i>
+            <div>
+              <h3 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #14532d;">2. Tampilan Visual Menarik &amp; Interaktif</h3>
+              <p contenteditable="true" style="font-size: 15px; color: #15803d; margin-top: 4px;">Dilengkapi warna, tombol, gambar, ikon, dan animasi yang memperjelas fungsi aplikasi.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 18px; background-color: #f0fdf4; border-left: 5px solid #16a34a; padding: 20px; border-radius: 0 12px 12px 0;">
+            <i class="fa-solid fa-circle-check" style="font-size: 24px; color: #16a34a; margin-top: 2px;"></i>
+            <div>
+              <h3 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #14532d;">3. Efisiensi &amp; Kecepatan Interaksi Navigasi</h3>
+              <p contenteditable="true" style="font-size: 15px; color: #15803d; margin-top: 4px;">Pengguna cukup mengklik atau menyentuh layar tanpa takut salah mengetik huruf instruksi.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: MANAJEMEN FILE & FOLDER -->
+    <div class="slide-container" id="slide9">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Manajemen File &amp; Folder pada Windows</h2>
+        <span class="slide-badge"><i class="fa-solid fa-folder-open"></i> File &amp; Folder</span>
+      </div>
+
+      <div class="content-area">
+        <div style="display: flex; gap: 24px; margin-bottom: 24px;">
+          <!-- File -->
+          <div style="flex: 1; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 20px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <i class="fa-solid fa-file-lines" style="font-size: 22px; color: #2563eb;"></i>
+              <h3 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #0f172a;">File (Berkas)</h3>
+            </div>
+            <p contenteditable="true" style="font-size: 14px; color: #475569;">Unit penyimpanan data/informasi digital (seperti dokumen .docx, gambar .jpg, lagu .mp3).</p>
+          </div>
+
+          <!-- Folder -->
+          <div style="flex: 1; background-color: #fffbeeb0; border: 1px solid #fde68a; border-radius: 14px; padding: 20px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <i class="fa-solid fa-folder" style="font-size: 22px; color: #d97706;"></i>
+              <h3 contenteditable="true" style="font-size: 18px; font-weight: 800; color: #78350f;">Folder (Direktori)</h3>
+            </div>
+            <p contenteditable="true" style="font-size: 14px; color: #92400e;"><b>Wadah/tempat penyimpanan digital</b> untuk mengelompokkan beberapa berkas agar rapi &amp; teratur.</p>
+          </div>
+        </div>
+
+        <!-- Steps to create folder -->
+        <div style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 16px; padding: 20px 24px;">
+          <h4 contenteditable="true" style="font-size: 16px; font-weight: 800; color: #0369a1; margin-bottom: 12px;">Langkah-Langkah Membuat Folder Baru di Windows:</h4>
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; color: #0f172a;">
+            <span style="background-color: #0284c7; color: #fff; padding: 6px 14px; border-radius: 8px;">1. Klik kanan pada area kosong</span>
+            <i class="fa-solid fa-arrow-right" style="color: #0284c7;"></i>
+            <span style="background-color: #0284c7; color: #fff; padding: 6px 14px; border-radius: 8px;">2. Pilih menu New</span>
+            <i class="fa-solid fa-arrow-right" style="color: #0284c7;"></i>
+            <span style="background-color: #0284c7; color: #fff; padding: 6px 14px; border-radius: 8px;">3. Pilih Folder</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: MENGECEK SPESIFIKASI KOMPUTER -->
+    <div class="slide-container" id="slide10">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Melihat Spesifikasi Komputer di Windows</h2>
+        <span class="slide-badge"><i class="fa-solid fa-gear"></i> System Settings</span>
+      </div>
+
+      <div class="content-area" style="align-items: center; text-align: center;">
+        <p contenteditable="true" style="font-size: 18px; color: #334155; margin-bottom: 32px; max-width: 720px;">
+          Untuk mengetahui jenis prosesor, kapasitas RAM, serta versi Windows yang digunakan pada komputer, ikuti langkah akses menu berikut:
+        </p>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; max-width: 900px; margin-bottom: 32px;">
+          
+          <div style="background-color: #f8fafc; border: 2px solid #cbd5e1; padding: 20px 24px; border-radius: 14px; flex: 1;">
+            <i class="fa-brands fa-windows" style="font-size: 28px; color: #0284c7; margin-bottom: 8px;"></i>
+            <h4 contenteditable="true" style="font-size: 16px; font-weight: 700; color: #0f172a;">1. Windows Menu</h4>
+          </div>
+
+          <i class="fa-solid fa-chevron-right" style="font-size: 22px; color: #94a3b8;"></i>
+
+          <div style="background-color: #f8fafc; border: 2px solid #cbd5e1; padding: 20px 24px; border-radius: 14px; flex: 1;">
+            <i class="fa-solid fa-gear" style="font-size: 28px; color: #0284c7; margin-bottom: 8px;"></i>
+            <h4 contenteditable="true" style="font-size: 16px; font-weight: 700; color: #0f172a;">2. Setting</h4>
+          </div>
+
+          <i class="fa-solid fa-chevron-right" style="font-size: 22px; color: #94a3b8;"></i>
+
+          <div style="background-color: #f8fafc; border: 2px solid #cbd5e1; padding: 20px 24px; border-radius: 14px; flex: 1;">
+            <i class="fa-solid fa-sliders" style="font-size: 28px; color: #0284c7; margin-bottom: 8px;"></i>
+            <h4 contenteditable="true" style="font-size: 16px; font-weight: 700; color: #0f172a;">3. System</h4>
+          </div>
+
+          <i class="fa-solid fa-chevron-right" style="font-size: 22px; color: #94a3b8;"></i>
+
+          <div style="background-color: #eff6ff; border: 2px solid #2563eb; padding: 20px 24px; border-radius: 14px; flex: 1;">
+            <i class="fa-solid fa-circle-info" style="font-size: 28px; color: #2563eb; margin-bottom: 8px;"></i>
+            <h4 contenteditable="true" style="font-size: 16px; font-weight: 800; color: #1e40af;">4. About</h4>
+          </div>
+
+        </div>
+
+        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 14px 28px; border-radius: 12px; display: inline-flex; align-items: center; gap: 10px;">
+          <i class="fa-solid fa-lightbulb" style="color: #16a34a; font-size: 20px;"></i>
+          <span contenteditable="true" style="font-size: 16px; font-weight: 700; color: #14532d;">
+            Urutan Kunci: Windows &lt; Setting &lt; System &lt; About
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: TABEL KISI-KISI SOAL SUMATIF HARIAN -->
+    <div class="slide-container" id="slide11">
+      <div class="slide-header">
+        <h2 class="slide-title" contenteditable="true">Poin Kunci Persiapan Sumatif Harian</h2>
+        <span class="slide-badge"><i class="fa-solid fa-clipboard-check"></i> Rangkuman Ujian</span>
+      </div>
+
+      <div class="content-area">
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; font-size: 14px;">
+          <thead>
+            <tr style="background-color: #f8fafc;">
+              <th contenteditable="true" style="padding: 12px 16px; text-align: left; font-weight: 800; color: #0f172a; border-bottom: 1px solid #e2e8f0; width: 25%;">Istilah / Konsep</th>
+              <th contenteditable="true" style="padding: 12px 16px; text-align: left; font-weight: 800; color: #0f172a; border-bottom: 1px solid #e2e8f0; width: 45%;">Pengertian / Keterangan Kunci</th>
+              <th contenteditable="true" style="padding: 12px 16px; text-align: left; font-weight: 800; color: #0f172a; border-bottom: 1px solid #e2e8f0; width: 30%;">Contoh / Catatan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td contenteditable="true" style="padding: 12px 16px; font-weight: 700; color: #2563eb; border-bottom: 1px solid #f1f5f9;">Sistem Komputer</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #334155; border-bottom: 1px solid #f1f5f9;">Kumpulan perangkat komputer yang saling berhubungan</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #64748b; border-bottom: 1px solid #f1f5f9;">Hardware, Software, Brainware</td>
+            </tr>
+            <tr>
+              <td contenteditable="true" style="padding: 12px 16px; font-weight: 700; color: #2563eb; border-bottom: 1px solid #f1f5f9;">System Software (OS)</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #334155; border-bottom: 1px solid #f1f5f9;">Mengendalikan sumber daya &amp; menghubungkan hardware-user</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #64748b; border-bottom: 1px solid #f1f5f9;">Windows, Linux, Android, iOS</td>
+            </tr>
+            <tr>
+              <td contenteditable="true" style="padding: 12px 16px; font-weight: 700; color: #2563eb; border-bottom: 1px solid #f1f5f9;">Utility Software</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #334155; border-bottom: 1px solid #f1f5f9;">Perangkat lunak merawat, mengoptimalkan &amp; mengamankan</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #64748b; border-bottom: 1px solid #f1f5f9;">Antivirus, Firewall, Cleaner</td>
+            </tr>
+            <tr>
+              <td contenteditable="true" style="padding: 12px 16px; font-weight: 700; color: #2563eb; border-bottom: 1px solid #f1f5f9;">GUI vs CLI</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #334155; border-bottom: 1px solid #f1f5f9;">GUI = Visual Grafis/Ikon/Tombol | CLI = Baris Perintah Teks</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #64748b; border-bottom: 1px solid #f1f5f9;">GUI lebih mudah digunakan (User-friendly)</td>
+            </tr>
+            <tr>
+              <td contenteditable="true" style="padding: 12px 16px; font-weight: 700; color: #2563eb;">Folder</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #334155;">Wadah penyimpanan digital untuk mengelompokkan berkas</td>
+              <td contenteditable="true" style="padding: 12px 16px; color: #64748b;">Klik kanan &rarr; New &rarr; Folder</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: CLOSING SLIDE -->
+    <div class="slide-container" id="slide12" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); justify-content: center; align-items: center; text-align: center; padding: 64px;">
+      <div style="width: 64px; height: 64px; background-color: rgba(56, 189, 248, 0.1); border-radius: 50%; border: 1px solid rgba(56, 189, 248, 0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+        <i class="fa-solid fa-graduation-cap" style="font-size: 32px; color: #38bdf8;"></i>
+      </div>
+
+      <h2 contenteditable="true" style="font-size: 42px; font-weight: 800; color: #ffffff; margin-bottom: 16px; letter-spacing: -0.02em;">
+        Selamat Belajar &amp; Sukses Asesmen!
+      </h2>
+
+      <p contenteditable="true" style="font-size: 20px; color: #94a3b8; max-width: 680px; line-height: 1.5; margin-bottom: 32px;">
+        Kuasai konsep Sistem Komputer, perbedaan Software, serta fungsi GUI untuk mendapatkan hasil ujian maksimal.
+      </p>
             <div class="button-box">
                 <a href="https://sujianduo.github.io/Kelas-6/" class="btn" target="_blank">
                     Mulai mengerjakan soal latihan
                 </a>
             </div>
-        </div>
-
+			<br><br><br>
+      <div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px 32px;">
+        <p contenteditable="true" style="font-size: 16px; color: #cbd5e1; font-weight: 600;">
+          SD Widya Dharma Banjarmasin • Informatika Kelas VI
+        </p>
+      </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <button class="nav-btn prev" id="prevBtn" aria-label="Slide sebelumnya">‹</button>
-    <button class="nav-btn next" id="nextBtn" aria-label="Slide berikutnya">›</button>
+  </div>
 
-    <!-- Slide Counter -->
-    <div class="slide-counter"><span id="current">1</span> / <span id="total">11</span></div>
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 12;
 
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
-        const totalSlides = slides.length;
-        let isTransitioning = false;
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
 
-        document.getElementById('total').textContent = totalSlides;
+      currentSlide = index;
 
-        function showSlide(index) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === index) {
-                    slide.classList.add('active');
-                }
-            });
-            document.getElementById('current').textContent = index + 1;
-
-            setTimeout(() => {
-                isTransitioning = false;
-            }, 400);
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide${i}`);
+        if (slide) {
+          if (i === currentSlide) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
         }
+      }
 
-        function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
-        }
+      document.getElementById('currentSlideNum').innerText = currentSlide;
+      document.getElementById('prevBtn').disabled = (currentSlide === 1);
+      document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+    }
 
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
-        }
+    function changeSlide(direction) {
+      showSlide(currentSlide + direction);
+    }
 
-        // Button navigation
-        document.getElementById('nextBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            nextSlide();
-        });
-        document.getElementById('prevBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            prevSlide();
-        });
+    // Keyboard Arrow Navigation
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'ArrowLeft') {
+        changeSlide(-1);
+      } else if (event.key === 'ArrowRight' || event.key === ' ') {
+        changeSlide(1);
+      }
+    });
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                e.preventDefault();
-                nextSlide();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                prevSlide();
-            }
-        });
+    // Touch Swipe Navigation
+    let touchstartX = 0;
+    let touchendX = 0;
 
-        // Click on slide edges (desktop)
-        document.addEventListener('click', (e) => {
-            // Jangan navigasi jika klik tombol, link, atau di dalam elemen interaktif
-            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.btn')) return;
-            if (e.target.closest('.nav-btn')) return;
+    const sliderWrapper = document.getElementById('slideWrapper');
 
-            const x = e.clientX;
-            const width = window.innerWidth;
-            // threshold 30% dari sisi
-            if (x > width * 0.7) {
-                nextSlide();
-            } else if (x < width * 0.3) {
-                prevSlide();
-            }
-        });
+    sliderWrapper.addEventListener('touchstart', function(event) {
+      touchstartX = event.changedTouches[0].screenX;
+    }, false);
 
-        // Touch / Swipe
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-        const minSwipeDistance = 30;
+    sliderWrapper.addEventListener('touchend', function(event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
 
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
+    function handleGesture() {
+      if (touchendX < touchstartX - 50) {
+        changeSlide(1);
+      }
+      if (touchendX > touchstartX + 50) {
+        changeSlide(-1);
+      }
+    }
 
-        document.addEventListener('touchend', (e) => {
-            // Jangan proses jika swipe dimulai dari tombol atau link
-            const target = e.target.closest('a, button, .btn');
-            if (target) return;
-
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
-            const diffX = touchEndX - touchStartX;
-            const diffY = touchEndY - touchStartY;
-
-            const absX = Math.abs(diffX);
-            const absY = Math.abs(diffY);
-
-            if (Math.max(absX, absY) < minSwipeDistance) return;
-
-            // HANYA swipe horizontal yang berpindah slide
-            if (absX > absY) {
-                if (diffX > 0) {
-                    prevSlide();
-                } else {
-                    nextSlide();
-                }
-            }
-        }
-
-        // Tampilkan slide pertama
-        showSlide(0);
-    </script>
+    // Initialize slide on load
+    window.onload = function() {
+      showSlide(1);
+    };
+  </script>
 </body>
 </html>
