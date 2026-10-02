@@ -9,12 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <style>
+    html { overscroll-behavior-y: none; }
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
     body {
+      overscroll-behavior-y: none;
       background-color: #090d16;
       font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
       color: #1e293b;
@@ -708,6 +710,9 @@
 
     // Biarkan browser menangani scroll vertikal secara normal.
     sliderWrapper.style.touchAction = 'pan-y';
+    sliderWrapper.style.overscrollBehaviorY = 'none';
+    document.documentElement.style.overscrollBehaviorY = 'none';
+    document.body.style.overscrollBehaviorY = 'none';
 
     sliderWrapper.addEventListener('touchstart', function(event) {
       if (!event.touches || event.touches.length !== 1) return;
@@ -755,7 +760,8 @@
     }, { passive: true });
 
     // Initialize slide on load
-    window.onload = function() {
+    if (!window.__slideInitialized) {
+      window.__slideInitialized = true;
       showSlide(1);
     };
   </script>
